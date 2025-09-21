@@ -24,13 +24,10 @@ License: GPL (>= 2)
 URL: https://github.com/natydasilva/jitter2D
 LazyData: yes
 Depends:
-    R (>= 4.3.0)
+    R (>= 4.3.0),
+      ggplot2
 Imports:
-    ggplot2,
-    dplyr,
-    mvtnorm,
-    rngWELL,
-    randtoolbox
+  mvtnorm
 Suggests:
     knitr,
     RColorBrewer,
