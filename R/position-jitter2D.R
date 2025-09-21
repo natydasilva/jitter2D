@@ -30,7 +30,7 @@ position_jitter2D <- function(weight = NULL,  seed = NA) {
 #' @format NULL
 #' @usage NULL
 #' @export
-PositionJitter2D <-ggproto("PositionJitter2D",  ggplot2:::Position,
+PositionJitter2D <- ggproto("PositionJitter2D",  ggplot2:::Position,
                           seed = NA,
                           required_aes = c("x", "y"),
 
@@ -47,9 +47,10 @@ PositionJitter2D <-ggproto("PositionJitter2D",  ggplot2:::Position,
                           },
 
                           compute_panel = function(self, data, params, scales) {
-                            compute_jitter2D(data, params$width, seed = params$seed)
+                            compute_jitter2D(data, params$weight, seed = params$seed)
                           }
 )
+
 
 compute_jitter2D <- function(data, weight= NULL, seed = NA) {
 
@@ -57,7 +58,7 @@ compute_jitter2D <- function(data, weight= NULL, seed = NA) {
 
    vv <- cbind(data$y, data$x) |> as.matrix() |> var(na.rm = TRUE)
 
-   noise <- rmvnorm( nrow(data), sigma = vv )
+   noise <-   mvtnorm::rmvnorm( nrow(data), sigma = vv )
 
    trans_x <- weight*noise[ , 2]
    trans_y <- weight*noise[ , 1]
