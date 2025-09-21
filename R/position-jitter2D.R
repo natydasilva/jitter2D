@@ -26,7 +26,7 @@ position_jitter2D <- function(weight = NULL,  seed = NA) {
   )
 }
 
-#' @rdname Position
+#' @rdname ggplot2::Position
 #' @format NULL
 #' @usage NULL
 #' @export

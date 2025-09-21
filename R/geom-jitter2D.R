@@ -6,8 +6,8 @@
 #' overplotting caused by discreteness in smaller datasets.
 #'
 #' @section Aesthetics GeomPoint
-#' @inheritParams layer
-#' @inheritParams geom_point
+#' @inheritParams ggplot2::layer
+#' @inheritParams ggplot2::geom_point
 #' @inheritParams position_jitter2D
 #' @seealso
 #'  [geom_point()] for regular, unjittered points,
@@ -32,7 +32,7 @@ geom_jitter2D <- function(mapping = NULL, data = NULL,
     position <- position_jitter2D(weight = weight)
   }
 
-  ggplot2::layer(
+  layer(
     data = data,
     mapping = mapping,
     stat = stat,
