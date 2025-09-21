@@ -5,7 +5,7 @@
 #' variation to the location of each point using bivarite normal distribution, and is a useful way of handling
 #' overplotting caused by discreteness in smaller datasets.
 #'
-#' @aesthetics GeomPoint
+#' @section Aesthetics GeomPoint
 #' @inheritParams layer
 #' @inheritParams geom_point
 #' @inheritParams position_jitter2D
@@ -32,7 +32,7 @@ geom_jitter2D <- function(mapping = NULL, data = NULL,
     position <- position_jitter2D(weight = weight)
   }
 
-  layer(
+  ggplot2::layer(
     data = data,
     mapping = mapping,
     stat = stat,
