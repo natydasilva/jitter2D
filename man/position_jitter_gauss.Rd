@@ -9,14 +9,9 @@
 position_jitter_gauss(weight = NULL, seed = NA)
 }
 \arguments{
-\item{weight, }{Amount of vertical and horizontal jitter. The jitter
-  is added in both positive and negative directions, so the total spread
-  is twice the value specified here.
+\item{weight, }{spread factor.
 
-  If omitted, defaults to 40% of the resolution of the data: this means the
-  jitter values will occupy 80% of the implied bins. Categorical data
-  is aligned on the integers, so a width or height of 0.5 will spread the
-  data so it's not possible to see the distinction between the categories.}
+  If omitted, just include the spread in the data.}
 
 \item{seed}{A random seed to make the jitter reproducible.
 Useful if you need to apply the same jitter twice, e.g., for a point and
