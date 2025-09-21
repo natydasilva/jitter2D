@@ -2,7 +2,7 @@
 #'
 #'
 #' @family position adjustments
-#' @param width,height Amount of vertical and horizontal jitter. The jitter
+#' @param weight, Amount of vertical and horizontal jitter. The jitter
 #'   is added in both positive and negative directions, so the total spread
 #'   is twice the value specified here.
 #'
@@ -19,10 +19,9 @@
 #'   Use `NULL` to use the current random seed and also avoid resetting
 #'   (the behaviour of \pkg{ggplot} 2.2.1 and earlier).
 #' @export
-position_jitter2D <- function(width = NULL, height = NULL, seed = NA) {
-  ggproto(NULL, PositionJitter2D,
-          width = width,
-          height = height,
+position_jitter2D <- function(weight = NULL,  seed = NA) {
+          ggproto(NULL, PositionJitter2D,
+          weight = weight,
           seed = seed
   )
 }
@@ -31,7 +30,7 @@ position_jitter2D <- function(width = NULL, height = NULL, seed = NA) {
 #' @format NULL
 #' @usage NULL
 #' @export
-PositionJitter2D <- ggproto("PositionJitter2D", Position,
+PositionJitter2D <-ggproto("PositionJitter2D",  ggplot2:::Position,
                           seed = NA,
                           required_aes = c("x", "y"),
 
@@ -42,44 +41,27 @@ PositionJitter2D <- ggproto("PositionJitter2D", Position,
                               seed <- self$seed
                             }
                             list(
-                              width = self$width,
-                              height = self$height,
+                              weight = self$weight,
                               seed = seed
                             )
                           },
 
                           compute_panel = function(self, data, params, scales) {
-                            compute_jitter2D(data, params$width, params$height, seed = params$seed)
+                            compute_jitter2D(data, params$width, seed = params$seed)
                           }
 )
 
-compute_jitter2D <- function(data, width = NULL, height = NULL, seed = NA) {
+compute_jitter2D <- function(data, weight= NULL, seed = NA) {
 
-   width  <- width  %||% (resolution(data$x, zero = FALSE, TRUE) * 0.4)
-   height <- height %||% (resolution(data$y, zero = FALSE, TRUE) * 0.4)
+   weight <- weight  %||% (resolution(data$x, zero = FALSE, TRUE) * 0.4)
 
-   vv <- var(data$y, data$x)
+   vv <- cbind(data$y, data$x) |> as.matrix() |> var(na.rm = TRUE)
 
    noise <- rmvnorm( nrow(data), sigma = vv )
-  # trans_x <- if (width > 0)  function(x) jitter(x, amount = width)
-  # trans_y <- if (height > 0) function(x) jitter(x, amount = height)
-   trans_x <- noise[ , 2]
-   trans_y <- noise[ , 1]
 
-   x_aes <- intersect(ggplot_global$x_aes, names(data))
-  # x <- if (length(x_aes) == 0) 0 else data[[x_aes[1]]]
-  #
-   y_aes <- intersect(ggplot_global$y_aes, names(data))
-  # y <- if (length(y_aes) == 0) 0 else data[[y_aes[1]]]
+   trans_x <- weight*noise[ , 2]
+   trans_y <- weight*noise[ , 1]
 
-  # jitter <- data_frame0(x = x, y = y, .size = nrow(data))
-  # jitter <- with_seed_null(seed, transform_position(jitter, trans_x, trans_y))
-
-  # x_jit <- jitter$x - x
-  # x_jit[is.infinite(x)] <- 0
-  #
-  # y_jit <- jitter$y - y
-  # y_jit[is.infinite(y)] <- 0
 
   transform_position(data, function(x) x + trans_x, function(x) x + trans_y)
 }

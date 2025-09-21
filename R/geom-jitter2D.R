@@ -14,30 +14,22 @@
 #'  [geom_boxplot()] for another way of looking at the conditional
 #'     distribution of a variable
 #' @export
-#' @examples
-#' p <- ggplot(mpg, aes(cty, hwy))
-#' p + geom_point()
-#' p + geom_jitter2D()
-#'
-#' # Add aesthetic mappings
-#' p + geom_jitter2D(aes(colour = class))
 geom_jitter2D <- function(mapping = NULL, data = NULL,
                         stat = "identity", position = "jitter2D",
                         ...,
-                        width = NULL,
-                        height = NULL,
+                        weight = NULL,
                         na.rm = FALSE,
                         show.legend = NA,
                         inherit.aes = TRUE) {
-  if (!missing(width) || !missing(height)) {
+  if (!missing(weight)) {
     if (!missing(position)) {
       cli::cli_abort(c(
-        "Both {.arg position} and {.arg width}/{.arg height} were supplied.",
+        "Both {.arg position} and {.arg width} were supplied.",
         "i" = "Choose a single approach to alter the position."
       ))
     }
 
-    position <- position_jitter2D(width = width, height = height)
+    position <- position_jitter2D(weight = weight)
   }
 
   layer(
