@@ -19,18 +19,18 @@
 #'   Use `NULL` to use the current random seed and also avoid resetting
 #'   (the behaviour of \pkg{ggplot} 2.2.1 and earlier).
 #' @export
-position_jitter2D <- function(weight = NULL,  seed = NA) {
-          ggproto(NULL, PositionJitter2D,
+position_jitter_gauss <- function(weight = NULL,  seed = NA) {
+          ggplot2::ggproto(NULL, PositionJittergauss,
           weight = weight,
           seed = seed
   )
 }
 
-#' @rdname Position
+#' @rdname position_jitter_gauss
 #' @format NULL
 #' @usage NULL
 #' @export
-PositionJitter2D <- ggproto("PositionJitter2D",  ggplot2:::Position,
+PositionJittergauss <- ggplot2::ggproto("PositionJittergauss",  ggplot2:::Position,
                           seed = NA,
                           required_aes = c("x", "y"),
 
@@ -47,16 +47,16 @@ PositionJitter2D <- ggproto("PositionJitter2D",  ggplot2:::Position,
                           },
 
                           compute_panel = function(self, data, params, scales) {
-                            compute_jitter2D(data, params$weight, seed = params$seed)
+                            compute_jitter_gauss(data, params$weight, seed = params$seed)
                           }
 )
 
 
-compute_jitter2D <- function(data, weight= NULL, seed = NA) {
+compute_jitter_gauss <- function(data, weight= NULL, seed = NA) {
 
-   weight <- weight  %||% (resolution(data$x, zero = FALSE, TRUE) * 0.4)
+   weight <- weight  %||% (ggplot2::resolution(data$x, zero = FALSE, TRUE) * 0.4)
 
-   vv <- cbind(data$y, data$x) |> as.matrix() |> var(na.rm = TRUE)
+   vv <- cbind(data$y, data$x) |> as.matrix() |> stats::var(na.rm = TRUE)
 
    noise <-   mvtnorm::rmvnorm( nrow(data), sigma = vv )
 
@@ -64,5 +64,5 @@ compute_jitter2D <- function(data, weight= NULL, seed = NA) {
    trans_y <- weight*noise[ , 1]
 
 
-  transform_position(data, function(x) x + trans_x, function(x) x + trans_y)
+  ggplot2::transform_position(data, function(x) x + trans_x, function(x) x + trans_y)
 }

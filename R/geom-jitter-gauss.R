@@ -1,20 +1,20 @@
-#' Jittered 2D points
+#' Jittered 2D points based on Bivariate normal distribution
 #'
 #' The jitter geom is a convenient shortcut for
-#' `geom_point(position = "jitter2D")`. It adds a small amount of random
+#' `geom_point(position = "jittergauss")`. It adds a small amount of random
 #' variation to the location of each point using bivarite normal distribution, and is a useful way of handling
 #' overplotting caused by discreteness in smaller datasets.
 #'
 #' @section Aesthetics GeomPoint
-#' @inheritParams layer
-#' @inheritParams geom_point
-#' @inheritParams position_jitter2D
+#' @inheritParams ggplot2::layer
+#' @inheritParams ggplot2::geom_point
+#' @inheritParams position_jitter_gauss
 #' @seealso
 #'  [geom_point()] for regular, unjittered points,
 #'  [geom_boxplot()] for another way of looking at the conditional
 #'     distribution of a variable
 #' @export
-geom_jitter2D <- function(mapping = NULL, data = NULL,
+geom_jitter_gauss <- function(mapping = NULL, data = NULL,
                         stat = "identity", position = "jitter2D",
                         ...,
                         weight = NULL,
@@ -29,18 +29,18 @@ geom_jitter2D <- function(mapping = NULL, data = NULL,
       ))
     }
 
-    position <- position_jitter2D(weight = weight)
+    position <- position_jitter_gauss(weight = weight)
   }
 
   ggplot2::layer(
     data = data,
     mapping = mapping,
     stat = stat,
-    geom = GeomPoint,
+    geom = ggplot2::GeomPoint,
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
-    params = list2(
+    params = rlang::list2(
       na.rm = na.rm,
       ...
     )
