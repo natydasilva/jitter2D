@@ -32,15 +32,15 @@ geom_jitter2D <- function(mapping = NULL, data = NULL,
     position <- position_jitter2D(weight = weight)
   }
 
-  layer(
+  ggplot2::layer(
     data = data,
     mapping = mapping,
     stat = stat,
-    geom = GeomPoint,
+    geom = ggplot2::GeomPoint,
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
-    params = list2(
+    params = rlang::list2(
       na.rm = na.rm,
       ...
     )
