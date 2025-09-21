@@ -1,3 +1,4 @@
 ^jitter2D\.Rproj$
 ^\.Rproj\.user$
 
+^tests/sandbox$
