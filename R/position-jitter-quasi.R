@@ -25,6 +25,10 @@ position_jitter_quasi <- function(weight = NULL,  seed = NA) {
 #' @format NULL
 #' @usage NULL
 #' @export
+#' @examples
+#' ggplot2::mpg |> ggplot2::ggplot(ggplot2::aes(cty, hwy)) +
+#'  geom_jitter_quasi() + ggplot2::theme(aspect.ratio = 1)
+#'
 PositionJitterquasi <- ggplot2::ggproto("PositionJitterquasi",  ggplot2:::Position,
                                         seed = NA,
                                         required_aes = c("x", "y"),
@@ -58,7 +62,7 @@ compute_jitter_quasi <- function(data, weight= NULL, seed = NA) {
   normal_seq <- stats::qnorm(sobol_seq)
 
   # Define parameters for bivariate Gaussian
-  vv <- data |> as.matrix() |> stats::var(na.rm = TRUE)
+  vv <- cbind(data$y, data$x)  |> as.matrix() |> stats::var(na.rm = TRUE)
 
   # Transform to desired bivariate Gaussian distribution
   # Using Cholesky decomposition

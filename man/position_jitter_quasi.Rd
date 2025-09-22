@@ -25,6 +25,11 @@ Use `NULL` to use the current random seed and also avoid resetting
 \description{
 2D Jitter points to avoid overplotting based on Gaussian bivariate distribution
 }
+\examples{
+ggplot2::mpg |> ggplot2::ggplot(ggplot2::aes(cty, hwy)) +
+ geom_jitter_quasi() + ggplot2::theme(aspect.ratio = 1)
+
+}
 \seealso{
 Other position adjustments: 
 \code{\link{position_jitter_gauss}()}

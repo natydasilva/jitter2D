@@ -14,6 +14,9 @@
 #'   Use `NULL` to use the current random seed and also avoid resetting
 #'   (the behaviour of \pkg{ggplot} 2.2.1 and earlier).
 #' @export
+#' @examples
+#' ggplot2::mpg |> ggplot2::ggplot(ggplot2::aes(cty, hwy)) +
+#'  geom_jitter_gauss() + ggplot2::theme(aspect.ratio = 1)
 position_jitter_gauss <- function(weight = NULL,  seed = NA) {
           ggplot2::ggproto(NULL, PositionJittergauss,
           weight = weight,
