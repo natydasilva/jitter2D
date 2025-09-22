@@ -28,6 +28,7 @@ data <- mpg[, c('cty', 'hwy')]
 
 # Load required packages
 library(randtoolbox)
+library(rngWELL)
 
 # Generate the Sobol sequence (uniform in [0,1])
 sobol_seq <- sobol(n = nrow(data), dim = 2)

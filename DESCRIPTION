@@ -29,6 +29,7 @@ Imports:
     cli,
     mvtnorm,
     stats,
+    randtoolbox,
     rlang,
     ggplot2
 Suggests:

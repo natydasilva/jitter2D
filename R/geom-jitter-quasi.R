@@ -1,26 +1,26 @@
-#' Jittered 2D points based on Bivariate normal distribution
+#' Jittered 2D points based on Sobolev sequence
 #'
 #' The jitter geom is a convenient shortcut for
-#' `geom_point(position = "jittergauss")`. It adds a small amount of random
+#' `geom_point(position = "jitterquasi")`. It adds a small amount of random
 #' variation to the location of each point using bivarite normal distribution, and is a useful way of handling
 #' overplotting caused by discreteness in smaller datasets.
 #'
 #' @section Aesthetics GeomPoint
 #' @inheritParams ggplot2::layer
 #' @inheritParams ggplot2::geom_point
-#' @inheritParams position_jitter_gauss
+#' @inheritParams position_jitter_quasi
 #' @seealso
 #'  [geom_point()] for regular, unjittered points,
 #'  [geom_boxplot()] for another way of looking at the conditional
 #'     distribution of a variable
 #' @export
-geom_jitter_gauss <- function(mapping = NULL, data = NULL,
-                        stat = "identity", position = "jittergauss",
-                        ...,
-                        weight = NULL,
-                        na.rm = FALSE,
-                        show.legend = NA,
-                        inherit.aes = TRUE) {
+geom_jitter_quasi <- function(mapping = NULL, data = NULL,
+                              stat = "identity", position = "jitterquasi",
+                              ...,
+                              weight = NULL,
+                              na.rm = FALSE,
+                              show.legend = NA,
+                              inherit.aes = TRUE) {
   if (!missing(weight)) {
     if (!missing(position)) {
       cli::cli_abort(c(
@@ -29,7 +29,7 @@ geom_jitter_gauss <- function(mapping = NULL, data = NULL,
       ))
     }
 
-    position <- position_jitter_gauss(weight = weight)
+    position <- position_jitter_quasi(weight = weight)
   }
 
   ggplot2::layer(

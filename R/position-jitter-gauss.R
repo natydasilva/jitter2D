@@ -1,4 +1,4 @@
-#' 2D Jitter points to avoid overplotting
+#' 2D Jitter points to avoid overplotting based on Gaussian bivariate distribution
 #'
 #'
 #' @family position adjustments
