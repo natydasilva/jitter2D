@@ -14,12 +14,16 @@ p  + geom_point()
 
 p + geom_jitter2D(weight = .05)
 
-p2 <- p + geom_jitter2D() +
+p2 <- p + geom_jitter_gauss() +
   theme(aspect.ratio = 1) +
   labs(title = 'gaussian')
 
 p1 <- p + geom_jitter( ) + theme(aspect.ratio = 1) +
   labs(title = 'jitter')
+
+p3 <- p + geom_jitter_quasi() +
+  theme(aspect.ratio = 1) +
+  labs(title = 'quasi')
 
 #===================================================
 
