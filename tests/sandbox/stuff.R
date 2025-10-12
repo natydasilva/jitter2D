@@ -1,4 +1,3 @@
-
 # Examples and attemps
 
 library(ggplot2)
@@ -8,25 +7,25 @@ devtools::load_all() # load jitter2d functions
 library(ggplot2)
 data(mpg)
 
-p <- mpg |> ggplot(aes(x=cty, y=hwy))
+p <- mpg |> ggplot(aes(x = cty, y = hwy))
 
-p  + geom_point()
+p0 <- p + geom_point() + theme(aspect.ratio = 1) + labs(title = 'Original')
 
 p + geom_jitter2D(weight = .05)
 
-p2 <- p + geom_jitter_gauss() +
+p2 <- p +
+  geom_jitter_gauss() +
   theme(aspect.ratio = 1) +
   labs(title = 'gaussian')
 
-p1 <- p + geom_jitter( ) + theme(aspect.ratio = 1) +
-  labs(title = 'jitter')
+p1 <- p + geom_jitter() + theme(aspect.ratio = 1) + labs(title = 'jitter')
 
-p3 <- p + geom_jitter_quasi() +
-  theme(aspect.ratio = 1) +
-  labs(title = 'quasi')
+p3 <- p + geom_jitter_quasi() + theme(aspect.ratio = 1) + labs(title = 'quasi')
 
+
+library(patchwork)
+(p0 + p1) / (p2 + p3)
 #===================================================
-
 
 data <- mpg[, c('cty', 'hwy')]
 
@@ -46,17 +45,16 @@ vv <- data |> as.matrix() |> stats::var(na.rm = TRUE)
 # Transform to desired bivariate Gaussian distribution
 # Using Cholesky decomposition
 L <- chol(vv)
-gaussian_seq <- t(L %*% t(normal_seq)) + rep(c(0, 0), each = nrow(data) )
+gaussian_seq <- t(L %*% t(normal_seq)) + rep(c(0, 0), each = nrow(data))
 
 library(dplyr)
 p3 <- mpg |>
-  mutate( cty= cty+gaussian_seq[,1], hwy=hwy+gaussian_seq[,2]) |>
-  ggplot(aes(x=cty, y=hwy) ) + geom_point() +
+  mutate(cty = cty + gaussian_seq[, 1], hwy = hwy + gaussian_seq[, 2]) |>
+  ggplot(aes(x = cty, y = hwy)) +
+  geom_point() +
   theme(aspect.ratio = 1) +
   labs(title = 'quasi')
 
 
 library(patchwork)
 p1 + p2 + p3
-
-
