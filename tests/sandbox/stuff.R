@@ -24,7 +24,7 @@ p3 <- p + geom_jitter_quasi() + theme(aspect.ratio = 1) + labs(title = 'quasi')
 
 
 library(patchwork)
-(p0 + p1) / (p2 + p3)
+(p0 + p1) / (p2 + p3) # ojaldre
 #===================================================
 
 data <- mpg[, c('cty', 'hwy')]
