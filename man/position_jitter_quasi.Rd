@@ -4,7 +4,7 @@
 \name{position_jitter_quasi}
 \alias{position_jitter_quasi}
 \alias{PositionJitterquasi}
-\title{2D Jitter points to avoid overplotting based on Gaussian bivariate distribution}
+\title{2D Jitter points to avoid overplotting based on Sobolev sequence}
 \usage{
 position_jitter_quasi(weight = NULL, seed = NA)
 }
@@ -23,7 +23,7 @@ Use `NULL` to use the current random seed and also avoid resetting
 (the behaviour of \pkg{ggplot} 2.2.1 and earlier).}
 }
 \description{
-2D Jitter points to avoid overplotting based on Gaussian bivariate distribution
+2D Jitter points to avoid overplotting based on Sobolev sequence
 }
 \examples{
 ggplot2::mpg |> ggplot2::ggplot(ggplot2::aes(cty, hwy)) +
