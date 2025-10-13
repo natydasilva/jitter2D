@@ -11,7 +11,6 @@ p <- mpg |> ggplot(aes(x = cty, y = hwy))
 
 p0 <- p + geom_point() + theme(aspect.ratio = 1) + labs(title = 'Original')
 
-p + geom_jitter2D(weight = .05)
 
 p2 <- p +
   geom_jitter_gauss() +
@@ -24,7 +23,7 @@ p3 <- p + geom_jitter_quasi() + theme(aspect.ratio = 1) + labs(title = 'quasi')
 
 
 library(patchwork)
-(p0 + p1) / (p2 + p3) # ojaldre
+(p0 + p1) / (p2 + p3)
 #===================================================
 
 data <- mpg[, c('cty', 'hwy')]

@@ -41,6 +41,41 @@ devtools::install_github("natydasilva/jitter2D")
 ```r
 library(ggplot2)
 library(jitter2D)
+library(patchwork)
+
+data(mpg)
+
+p <- mpg |> ggplot(aes(x = cty, y = hwy))
+
+p0 <- p + geom_point() + theme(aspect.ratio = 1) + labs(title = 'Original')
+
+
+p2 <- p +
+  geom_jitter_gauss() +
+  theme(aspect.ratio = 1) +
+  labs(title = 'gaussian')
+
+p1 <- p + geom_jitter() + theme(aspect.ratio = 1) + labs(title = 'jitter')
+
+p3 <- p + geom_jitter_quasi() + theme(aspect.ratio = 1) + labs(title = 'quasi')
+
+
+
+(p0 + p1) / (p2 + p3) 
 
 ```
+
+![](tests/sandbox/plots_ej.png)
+
+## To Do list
+
+- Improve quasi random implemantation
+
+- Work in the pkg documentation and webpage 
+
+- Experiment to evaluate different methods
+
+- Find an interesting real data example
+
+
 
