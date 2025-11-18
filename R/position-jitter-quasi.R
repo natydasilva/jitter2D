@@ -63,13 +63,10 @@ compute_jitter_quasi <- function(data, weight= NULL, seed = NA, local = FALSE) {
    data_over <- data |> group_by(data$x, data$y) |>
       summarise(point = n())
 
-   sobol_aux<- function(point){
-
-     sobol_seq <- randtoolbox::sobol(n = nrow(data$point), dim = 2)
+   sobol_aux<- function(x){
+     randtoolbox::sobol(n = x[3], dim = 2) |> data.frame()
    }
-
-
-   aux <- apply(data_over,1, sobol_aux )
+   sobol_seq <- apply(data_over,1, sobol_aux ) |> bind_rows()
   }
 
 
