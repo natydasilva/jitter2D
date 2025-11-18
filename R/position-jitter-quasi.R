@@ -67,6 +67,7 @@ compute_jitter_quasi <- function(data, weight= NULL, seed = NA, local = FALSE) {
      randtoolbox::sobol(n = x[3], dim = 2) |> data.frame()
    }
    sobol_seq <- apply(data_over,1, sobol_aux ) |> bind_rows()
+
   }
 
 
