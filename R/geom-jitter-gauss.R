@@ -2,7 +2,7 @@
 #'
 #' The jitter geom is a convenient shortcut for
 #' `geom_point(position = "jittergauss")`. It adds a small amount of random
-#' variation to the location of each point using bivarite normal distribution, and is a useful way of handling
+#' variation to the location of each point using bivariate normal distribution, and is a useful way of handling
 #' overplotting caused by discreteness in smaller datasets.
 #'
 #' @section Aesthetics GeomPoint
@@ -14,6 +14,12 @@
 #'  [geom_boxplot()] for another way of looking at the conditional
 #'     distribution of a variable
 #' @export
+#' @examples
+#' # plot categorical variables of mtcars
+#' require("ggplot2")
+#' data(mpg)
+#' ggplot(mpg, aes(x=cty, y=hwy)) + geom_point()
+#' ggplot(mpg, aes(x=cty, y=hwy)) + geom_jitter_gauss()
 geom_jitter_gauss <- function(mapping = NULL, data = NULL,
                         stat = "identity", position = "jittergauss",
                         ...,

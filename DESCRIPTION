@@ -30,6 +30,7 @@ Imports:
     mvtnorm,
     stats,
     randtoolbox,
+    dplyr,
     rlang,
     ggplot2
 Suggests:
