@@ -51,12 +51,19 @@ PositionJitterquasi <- ggplot2::ggproto("PositionJitterquasi",  ggplot2:::Positi
 )
 
 
-compute_jitter_quasi <- function(data, weight= NULL, seed = NA) {
+compute_jitter_quasi <- function(data, weight= NULL, seed = NA, local = FALSE) {
 
   weight <- weight  %||% (ggplot2::resolution(data$x, zero = FALSE, TRUE) * 0.4)
 
+  if(local){
   # Generate the Sobol sequence (uniform in [0,1])
   sobol_seq <- randtoolbox::sobol(n = nrow(data), dim = 2)
+  }else{
+
+   data_over <- data |> group_by(data$x, data$y) |>
+      summarise(points = n())
+  }
+
 
   # Transform uniform to standard normal using inverse normal CDF
   normal_seq <- stats::qnorm(sobol_seq)
@@ -76,4 +83,8 @@ compute_jitter_quasi <- function(data, weight= NULL, seed = NA) {
 
 
   ggplot2::transform_position(data, function(x) x + trans_x, function(x) x + trans_y)
+
+
+  }
+
 }
