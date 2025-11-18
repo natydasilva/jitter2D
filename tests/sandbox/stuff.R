@@ -57,3 +57,33 @@ p3 <- mpg |>
 
 library(patchwork)
 p1 + p2 + p3
+
+#===================================================
+data <- mpg[, c('cty', 'hwy')]
+library(dplyr)
+
+# Load required packages
+library(randtoolbox)
+library(rngWELL)
+library(dplyr)
+# Generate the Sobol sequence (uniform in [0,1])
+sobol_seq <- sobol(n = nrow(data), dim = 2)
+
+mpg |> ggplot(aes(x = cty, y = hwy)) + geom_point()
+
+data_ovrplt <- data |>
+  group_by(cty, hwy) |>
+  summarise(points = n())
+
+sb_fun <- function(x) {
+  sobol(n = x[3], dim = 2)
+}
+
+apply(data_ovrplt, 1, sb_fun)
+
+
+data_ovrplt |>
+  reframe()
+
+
+data.frame(x = letters[1:4], y = 100:103, w = c(3, 4, 2, 1))
