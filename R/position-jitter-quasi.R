@@ -70,7 +70,6 @@ compute_jitter_quasi <- function(data, weight= NULL, seed = NA, local = FALSE) {
 
   }
 
-
   # Transform uniform to standard normal using inverse normal CDF
   normal_seq <- stats::qnorm(sobol_seq)
 
@@ -93,4 +92,4 @@ compute_jitter_quasi <- function(data, weight= NULL, seed = NA, local = FALSE) {
 
   }
 
-}
+
