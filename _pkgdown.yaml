@@ -1,0 +1,17 @@
+template:
+  bootstrap: 5
+
+reference:
+  - title: "Main functions"
+    contents:
+      - geom_jitter_gauss
+      - geom_jitter_quasi
+      - geom_jitter_quasiloc
+      - geom_jitter_quasitog
+      - position_jitter_gauss
+      - position_jitter_quasi
+      - position_jitter_quasiloc
+      - position_jitter_quasitog
+      - dayles
+url: https://github.com/natydasilva/jitter2D
+
