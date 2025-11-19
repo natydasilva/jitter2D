@@ -18,7 +18,7 @@
 position_jitter_quasi <- function(weight = NULL,  seed = NA) {
   ggplot2::ggproto(NULL, PositionJitterquasi,
                    weight = weight,
-                   seed = seed, loc = loc
+                   seed = seed
   )
 }
 
@@ -57,7 +57,7 @@ PositionJitterquasi <- ggplot2::ggproto("PositionJitterquasi",  ggplot2:::Positi
 )
 
 
-compute_jitter_quasi <- function(data, weight= NULL, seed = NA, loc = FALSE) {
+compute_jitter_quasi <- function(data, weight= NULL, seed = NA, loc=loc ) {
 
   weight <- weight  %||% (ggplot2::resolution(data$x, zero = FALSE, TRUE) * 0.4)
 
