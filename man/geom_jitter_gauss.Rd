@@ -125,8 +125,8 @@ NA
 # plot categorical variables of mtcars
 require("ggplot2")
 data(mpg)
-ggplot(mpg, aes(x=cty, y=hwy)) + geom_point()
-ggplot(mpg, aes(x=cty, y=hwy)) + geom_jitter_gauss()
+ggplot(mpg, aes(x = cty, y = hwy)) + geom_point()
+ggplot(mpg, aes(x = cty, y = hwy)) + geom_jitter_gauss()
 }
 \seealso{
 [geom_point()] for regular, unjittered points,

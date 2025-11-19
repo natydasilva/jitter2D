@@ -87,3 +87,21 @@ data_ovrplt |>
 
 
 data.frame(x = letters[1:4], y = 100:103, w = c(3, 4, 2, 1))
+
+
+
+
+data<-mpg
+
+names(data)[8]<-"x"
+
+names(data)[9]<-"y"
+
+data_over <- data |> dplyr::group_by(data$x, data$y) |>
+  dplyr::summarise(point = dplyr::n())
+
+sobol_aux<- function(x){
+  randtoolbox::sobol(n = x[3], dim = 2) |> data.frame()
+}
+sobol_seq <- apply(data_over,1, sobol_aux ) |>
+  dplyr::bind_rows()

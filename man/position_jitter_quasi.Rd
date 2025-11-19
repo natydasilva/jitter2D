@@ -21,6 +21,8 @@ If `NA` (the default value), the seed is initialised with a random value;
 this makes sure that two subsequent calls start with a different seed.
 Use `NULL` to use the current random seed and also avoid resetting
 (the behaviour of \pkg{ggplot} 2.2.1 and earlier).}
+
+\item{loc}{logical, if its TRUE it uses the Sobol sequence to generate points locally, and it is false generate a complete sobol sequence for all points.}
 }
 \description{
 2D Jitter points to avoid overplotting based on Sobolev sequence

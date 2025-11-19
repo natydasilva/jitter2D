@@ -48,7 +48,7 @@ geom_jitter_quasi <- function(mapping = NULL, data = NULL,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = rlang::list2(
-      na.rm = na.rm, loc,
+      na.rm = na.rm,
       ...
     )
 

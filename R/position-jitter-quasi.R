@@ -13,6 +13,7 @@
 #'   this makes sure that two subsequent calls start with a different seed.
 #'   Use `NULL` to use the current random seed and also avoid resetting
 #'   (the behaviour of \pkg{ggplot} 2.2.1 and earlier).
+#' @param loc logical, if its TRUE it uses the Sobol sequence to generate points locally, and it is false generate a complete sobol sequence for all points.
 #' @export
 position_jitter_quasi <- function(weight = NULL,  seed = NA) {
   ggplot2::ggproto(NULL, PositionJitterquasi,
@@ -35,20 +36,23 @@ PositionJitterquasi <- ggplot2::ggproto("PositionJitterquasi",  ggplot2:::Positi
                                         required_aes = c("x", "y"),
 
                                         setup_params = function(self, data) {
+
                                           if (!is.null(self$seed) && is.na(self$seed)) {
                                             seed <- sample.int(.Machine$integer.max, 1L)
                                           } else {
                                             seed <- self$seed
                                           }
+
                                           list(
                                             weight = self$weight,
                                             seed = seed,
                                             loc = self$loc
+
                                           )
                                         },
 
                                         compute_panel = function(self, data, params, scales) {
-                                          compute_jitter_quasi(data, params$weight, seed = params$seed, loc = loc)
+                                          compute_jitter_quasi(data, params$weight, seed = params$seed, loc = params$loc)
                                         }
 )
 
@@ -66,7 +70,7 @@ compute_jitter_quasi <- function(data, weight= NULL, seed = NA, loc = FALSE) {
       randtoolbox::sobol(n = x[3], dim = 2) |> data.frame()
     }
     sobol_seq <- apply(data_over,1, sobol_aux ) |>
-      dplyr::bind_rows()
+      dplyr::bind_rows() |> as.matrix()
   }else{
 
     sobol_seq <- randtoolbox::sobol(n = nrow(data), dim = 2)

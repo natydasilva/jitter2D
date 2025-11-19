@@ -18,8 +18,8 @@
 #' # plot categorical variables of mtcars
 #' require("ggplot2")
 #' data(mpg)
-#' ggplot(mpg, aes(x=cty, y=hwy)) + geom_point()
-#' ggplot(mpg, aes(x=cty, y=hwy)) + geom_jitter_gauss()
+#' ggplot(mpg, aes(x = cty, y = hwy)) + geom_point()
+#' ggplot(mpg, aes(x = cty, y = hwy)) + geom_jitter_gauss()
 geom_jitter_gauss <- function(mapping = NULL, data = NULL,
                         stat = "identity", position = "jittergauss",
                         ...,

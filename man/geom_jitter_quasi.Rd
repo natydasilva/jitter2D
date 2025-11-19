@@ -111,6 +111,8 @@ but unobserved levels are omitted.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
+
+\item{loc}{logical, if its TRUE it uses the Sobol sequence to generate points locally, and it is false generate a complete sobol sequence for all points.}
 }
 \description{
 The jitter geom is a convenient shortcut for
@@ -128,6 +130,7 @@ require("ggplot2")
 data(mpg)
 ggplot(mpg, aes(x=cty, y=hwy)) + geom_point()
 ggplot(mpg, aes(x=cty, y=hwy)) + geom_jitter_quasi(loc=TRUE)
+
 }
 \seealso{
 [geom_point()] for regular, unjittered points,
