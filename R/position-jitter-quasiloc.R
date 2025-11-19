@@ -16,7 +16,7 @@
 #' @param loc logical, if its TRUE it uses the Sobol sequence to generate points locally, and it is false generate a complete sobol sequence for all points.
 #' @export
 position_jitter_quasiloc <- function(weight = NULL, seed = NA) {
-  ggplot2::ggproto(NULL, PositionJitterquasi, weight = weight, seed = seed)
+  ggplot2::ggproto(NULL, PositionJitterquasiloc, weight = weight, seed = seed)
 }
 
 #' @rdname position_jitter_quasiloc
