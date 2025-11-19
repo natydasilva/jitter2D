@@ -1,32 +1,36 @@
+# `jitter2D` package
 
-`jitter2D` package <img src="man/figures/logo.png" align="right" height="139" alt="" />
-======================
-Natalia da Silva, Ignacio Alvarez-Castro, Dianne Cook & Jayani P., Gamage.
-
-
-
-<!--<img src="man/figures/???.png" align="right" alt="" width="160" />-->
-
+Natalia da Silva, Ignacio Alvarez-Castro, Dianne Cook & Jayani P.,
+Gamage.
 
 ## Overview
 
-`jitter2D` is an R package that extends ggplot2 to create bivariate jittered scatterplots. This package provides specialized functionality for adding controlled random noise in two dimensions, making it easier to visualize overlapping data points in scatterplots where both x and y variables may have discrete or semi-discrete values.
+`jitter2D` is an R package that extends ggplot2 to create bivariate
+jittered scatterplots. This package provides specialized functionality
+for adding controlled random noise in two dimensions, making it easier
+to visualize overlapping data points in scatterplots where both x and y
+variables may have discrete or semi-discrete values.
 
 ## Description
 
-When creating scatterplots with discrete or rounded data, points often overlap, making it difficult to assess the true density and distribution of observations. While base R and ggplot2 provide one-dimensional jittering (typically along one axis), `jitter2D` extends this concept to apply jittering simultaneously to both x and y coordinates.
+When creating scatterplots with discrete or rounded data, points often
+overlap, making it difficult to assess the true density and distribution
+of observations. While base R and ggplot2 provide one-dimensional
+jittering (typically along one axis), `jitter2D` extends this concept to
+apply jittering simultaneously to both x and y coordinates.
 
 Currently there are two implemented methods:
 
-- `geom_jitter_gauss`: Adds Bivariate Gaussian random noise 
+- `geom_jitter_gauss`: Adds Bivariate Gaussian random noise
 
-- `geom_jitter_quasi`:  Adds Quasi-random noise based on Sobolev sequences
+- `geom_jitter_quasi`: Adds Quasi-random noise based on Sobolev
+  sequences
 
 ## Installation
 
 You can install the development version of jitter2D from GitHub:
 
-```r
+``` r
 # Install devtools if you haven't already
 install.packages("devtools")
 
@@ -38,9 +42,6 @@ devtools::install_github("natydasilva/jitter2D")
 
 ### Basic Example
 
-
-
-
 | ash | beg | count |
 |:---:|:---:|:-----:|
 | 1.5 | 1.5 |   5   |
@@ -49,7 +50,7 @@ devtools::install_github("natydasilva/jitter2D")
 | 4.5 |  5  |   1   |
 | 5.5 |  6  |   1   |
 
-```r
+``` r
 
 data(dayles)
 
@@ -65,16 +66,11 @@ p4 <- base + geom_jitter_quasiloc() + labs(title = 'Local Sobol seq.') + theme(a
 (p1 + p2) / (p3 + p4)
 ```
 
-<img src="man/figures/small.png" alt="Description of small example" />
-
-
-<!--![](man/figures/small.png)-->
+![Description of small example](reference/figures/small.png)
 
 ### mpg Example
 
-
-
-```r
+``` r
 library(ggplot2)
 library(jitter2D)
 library(patchwork)
@@ -100,21 +96,16 @@ p4 <- p + geom_jitter_quasiloc() + theme(aspect.ratio = 1) + labs(title = 'Local
 
 
 (p0 + p1) / (p2 + p3+p4) 
-
 ```
-<img src="man/figures/plot_ej.png" alt="Example jitter2D plots for mpg dataset" />
 
-<!--![](man/figures/plot_ej.png)-->
+![Example jitter2D plots for mpg dataset](reference/figures/plot_ej.png)
 
 ## To Do list
 
 - Improve quasi random implemantation
 
-- Work in the pkg documentation and webpage 
+- Work in the pkg documentation and webpage
 
 - Experiment to evaluate different methods
 
 - Find an interesting real data example
-
-
-

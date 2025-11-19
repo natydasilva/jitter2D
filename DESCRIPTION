@@ -16,7 +16,11 @@ Authors@R:
            family = "Cook",
            role = "aut",
            email = "dicook@monash.edu"
-           )
+           ),
+           person(given = "Jayani P.",
+           family = "Gamage",
+           role = "aut",
+           email = "jayanilakshika76@gmail.com")
   )         
 Maintainer: Natalia da Silva <natalia.dasilva@fcea.edu.uy>
 Description:2D jittered scatterplot.
