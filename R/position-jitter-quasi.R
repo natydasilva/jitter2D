@@ -17,7 +17,7 @@
 position_jitter_quasi <- function(weight = NULL,  seed = NA) {
   ggplot2::ggproto(NULL, PositionJitterquasi,
                    weight = weight,
-                   seed = seed
+                   seed = seed, loc = loc
   )
 }
 
@@ -31,6 +31,7 @@ position_jitter_quasi <- function(weight = NULL,  seed = NA) {
 #'
 PositionJitterquasi <- ggplot2::ggproto("PositionJitterquasi",  ggplot2:::Position,
                                         seed = NA,
+                                        loc = FALSE,
                                         required_aes = c("x", "y"),
 
                                         setup_params = function(self, data) {
@@ -41,32 +42,34 @@ PositionJitterquasi <- ggplot2::ggproto("PositionJitterquasi",  ggplot2:::Positi
                                           }
                                           list(
                                             weight = self$weight,
-                                            seed = seed
+                                            seed = seed,
+                                            loc = self$loc
                                           )
                                         },
 
                                         compute_panel = function(self, data, params, scales) {
-                                          compute_jitter_quasi(data, params$weight, seed = params$seed)
+                                          compute_jitter_quasi(data, params$weight, seed = params$seed, loc = loc)
                                         }
 )
 
 
-compute_jitter_quasi <- function(data, weight= NULL, seed = NA, local = FALSE) {
+compute_jitter_quasi <- function(data, weight= NULL, seed = NA, loc = FALSE) {
 
   weight <- weight  %||% (ggplot2::resolution(data$x, zero = FALSE, TRUE) * 0.4)
 
-  if(local){
+  if(loc){
   # Generate the Sobol sequence (uniform in [0,1])
-  sobol_seq <- randtoolbox::sobol(n = nrow(data), dim = 2)
+    data_over <- data |> dplyr::group_by(data$x, data$y) |>
+      dplyr::summarise(point = dplyr::n())
+
+    sobol_aux<- function(x){
+      randtoolbox::sobol(n = x[3], dim = 2) |> data.frame()
+    }
+    sobol_seq <- apply(data_over,1, sobol_aux ) |>
+      dplyr::bind_rows()
   }else{
 
-   data_over <- data |> group_by(data$x, data$y) |>
-      summarise(point = n())
-
-   sobol_aux<- function(x){
-     randtoolbox::sobol(n = x[3], dim = 2) |> data.frame()
-   }
-   sobol_seq <- apply(data_over,1, sobol_aux ) |> bind_rows()
+    sobol_seq <- randtoolbox::sobol(n = nrow(data), dim = 2)
 
   }
 

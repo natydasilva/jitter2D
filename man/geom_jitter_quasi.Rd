@@ -13,7 +13,8 @@ geom_jitter_quasi(
   weight = NULL,
   na.rm = FALSE,
   show.legend = NA,
-  inherit.aes = TRUE
+  inherit.aes = TRUE,
+  loc = FALSE
 )
 }
 \arguments{
@@ -126,7 +127,7 @@ NA
 require("ggplot2")
 data(mpg)
 ggplot(mpg, aes(x=cty, y=hwy)) + geom_point()
-ggplot(mpg, aes(x=cty, y=hwy)) + geom_jitter_quasi()
+ggplot(mpg, aes(x=cty, y=hwy)) + geom_jitter_quasi(loc=TRUE)
 }
 \seealso{
 [geom_point()] for regular, unjittered points,

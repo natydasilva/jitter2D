@@ -19,14 +19,15 @@
 #' require("ggplot2")
 #' data(mpg)
 #' ggplot(mpg, aes(x=cty, y=hwy)) + geom_point()
-#' ggplot(mpg, aes(x=cty, y=hwy)) + geom_jitter_quasi()
+#' ggplot(mpg, aes(x=cty, y=hwy)) + geom_jitter_quasi(loc=TRUE)
+#'
 geom_jitter_quasi <- function(mapping = NULL, data = NULL,
                               stat = "identity", position = "jitterquasi",
                               ...,
                               weight = NULL,
                               na.rm = FALSE,
                               show.legend = NA,
-                              inherit.aes = TRUE) {
+                              inherit.aes = TRUE, loc = FALSE) {
   if (!missing(weight)) {
     if (!missing(position)) {
       cli::cli_abort(c(
@@ -35,7 +36,7 @@ geom_jitter_quasi <- function(mapping = NULL, data = NULL,
       ))
     }
 
-    position <- position_jitter_quasi(weight = weight)
+    position <- position_jitter_quasi(weight = weight, loc = loc)
   }
 
   ggplot2::layer(
@@ -47,8 +48,9 @@ geom_jitter_quasi <- function(mapping = NULL, data = NULL,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = rlang::list2(
-      na.rm = na.rm,
+      na.rm = na.rm, loc,
       ...
     )
+
   )
 }
