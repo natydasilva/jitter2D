@@ -5,7 +5,7 @@ Natalia da Silva, Ignacio Alvarez-Castro & Dianne Cook
 
 
 
-# <img src="man/figures/???.png" align="right" alt="" width="160" />
+<!--<img src="man/figures/???.png" align="right" alt="" width="160" />-->
 
 
 ## Overview
@@ -65,7 +65,10 @@ p4 <- base + geom_jitter_quasiloc() + labs(title = 'Local Sobol seq.') + theme(a
 (p1 + p2) / (p3 + p4)
 ```
 
-![](tests/sandbox/small.png)
+<img src="man/figures/small.png" alt="Description of small example" />
+
+
+<!--![](man/figures/small.png)-->
 
 ### mpg Example
 
@@ -99,8 +102,9 @@ p4 <- p + geom_jitter_quasiloc() + theme(aspect.ratio = 1) + labs(title = 'Local
 (p0 + p1) / (p2 + p3+p4) 
 
 ```
+<img src="man/figures/plot_ej.png" alt="Example jitter2D plots for mpg dataset" />
 
-![](tests/sandbox/plot_ej.png)
+<!--![](man/figures/plot_ej.png)-->
 
 ## To Do list
 
