@@ -117,18 +117,22 @@ sobol_seq <- apply(data_over, 1, sobol_aux) |>
 
 # =========================================================
 # =========================================================
-
+devtools::load_all() # load jitter2d functions
 library(tidyverse)
-
+library(ggplot2)
 data <- data.frame(x = rep(1:10, times = c(rep(1, 5), rep(4, 5)))) |>
   mutate(y = x + c(1:5, rep(-1, 10), rep(1, 10)))
 
 ggplot(data, aes(x, y)) + geom_point()
 
 ggplot(data, aes(x, y)) +
-  geom_point(color = 'red', size = .5) +
   geom_jitter_quasiloc() +
+  geom_point(color = 'red', size = .5) +
   scale_x_continuous(breaks = 1:10)
+
+bb <- ggplot_build(pp)
+bb@data
+
 
 var(data)
 

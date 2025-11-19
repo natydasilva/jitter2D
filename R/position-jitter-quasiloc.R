@@ -27,8 +27,8 @@ position_jitter_quasiloc <- function(weight = NULL, seed = NA) {
 #' ggplot2::mpg |> ggplot2::ggplot(ggplot2::aes(cty, hwy)) +
 #'  geom_jitter_quasiloc() + ggplot2::theme(aspect.ratio = 1)
 #'
-PositionJitterquasiLoc <- ggplot2::ggproto(
-  "PositionJitterquasiLoc",
+PositionJitterquasiloc <- ggplot2::ggproto(
+  "PositionJitterquasiloc",
   ggplot2:::Position,
   seed = NA,
   loc = FALSE,

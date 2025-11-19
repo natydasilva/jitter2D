@@ -25,7 +25,7 @@ geom_jitter_quasiloc <- function(
   mapping = NULL,
   data = NULL,
   stat = "identity",
-  position = "jitterquasi",
+  position = "jitterquasiloc",
   ...,
   weight = NULL,
   na.rm = FALSE,
