@@ -57,11 +57,11 @@ PositionJitterquasi <- ggplot2::ggproto("PositionJitterquasi",  ggplot2:::Positi
 )
 
 
-compute_jitter_quasi <- function(data, weight = NULL, seed = NA, loc = loc ) {
+compute_jitter_quasi <- function(data, weight = NULL, seed = NA, loc = TRUE) {
 
   weight <- weight  %||% (ggplot2::resolution(data$x, zero = FALSE, TRUE) * 0.4)
 
-  if(loc){
+  if(isTRUE(loc)){
   # Generate the Sobol sequence (uniform in [0,1])
     data_over <- data |> dplyr::group_by(data$x, data$y) |>
       dplyr::summarise(point = dplyr::n())
