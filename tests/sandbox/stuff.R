@@ -19,10 +19,20 @@ p2 <- p +
 
 p1 <- p + geom_jitter() + theme(aspect.ratio = 1) + labs(title = 'jitter')
 
-p3 <- p + geom_jitter_quasi() + theme(aspect.ratio = 1) + labs(title = 'quasi')
+p3 <- p +
+  geom_jitter_quasi(loc = FALSE) +
+  theme(aspect.ratio = 1) +
+  labs(title = 'quasi')
 
+p4 <- p +
+  geom_jitter_quasiloc() +
+  theme(aspect.ratio = 1) +
+  labs(title = 'quasiloc')
 
 library(patchwork)
+
+p3 + p4
+
 (p0 + p1) / (p2 + p3)
 #===================================================
 
@@ -89,19 +99,69 @@ data_ovrplt |>
 data.frame(x = letters[1:4], y = 100:103, w = c(3, 4, 2, 1))
 
 
+data <- mpg
 
+names(data)[8] <- "x"
 
-data<-mpg
+names(data)[9] <- "y"
 
-names(data)[8]<-"x"
-
-names(data)[9]<-"y"
-
-data_over <- data |> dplyr::group_by(data$x, data$y) |>
+data_over <- data |>
+  dplyr::group_by(data$x, data$y) |>
   dplyr::summarise(point = dplyr::n())
 
-sobol_aux<- function(x){
+sobol_aux <- function(x) {
   randtoolbox::sobol(n = x[3], dim = 2) |> data.frame()
 }
-sobol_seq <- apply(data_over,1, sobol_aux ) |>
+sobol_seq <- apply(data_over, 1, sobol_aux) |>
   dplyr::bind_rows()
+
+# =========================================================
+# =========================================================
+
+library(tidyverse)
+
+data <- data.frame(x = rep(1:10, times = c(rep(1, 5), rep(4, 5)))) |>
+  mutate(y = x + c(1:5, rep(-1, 10), rep(1, 10)))
+
+ggplot(data, aes(x, y)) + geom_point()
+
+ggplot(data, aes(x, y)) +
+  geom_point(color = 'red', size = .5) +
+  geom_jitter_quasiloc() +
+  scale_x_continuous(breaks = 1:10)
+
+var(data)
+
+# Generate the Sobol sequence (uniform in [0,1])
+data_over <- data |>
+  dplyr::group_by(data$x, data$y) |>
+  dplyr::summarise(point = dplyr::n())
+
+sobol_aux <- function(x) {
+  randtoolbox::sobol(n = x[3], dim = 2) |> data.frame()
+}
+
+sobol_seq <- apply(data_over, 1, sobol_aux) |>
+  dplyr::bind_rows() |>
+  as.matrix()
+
+# Transform uniform to standard normal using inverse normal CDF
+normal_seq <- stats::qnorm(sobol_seq)
+
+# Define parameters for bivariate Gaussian
+vv <- cbind(data$y, data$x) |> as.matrix() |> stats::var(na.rm = TRUE)
+
+# Transform to desired bivariate Gaussian distribution
+# Using Cholesky decomposition
+L <- chol(vv)
+#gaussian seq
+noise <- t(L %*% t(normal_seq)) + rep(c(0, 0), each = nrow(data))
+
+weight <- 1
+trans_x <- weight * noise[, 2]
+trans_y <- weight * noise[, 1]
+
+ggplot(data) +
+  geom_jitter_quasiloc(aes(x + trans_x, y + trans_y)) +
+  geom_point(aes(x, y), color = 'red', size = .5) +
+  scale_x_continuous(breaks = 1:10)
