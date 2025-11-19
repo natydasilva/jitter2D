@@ -17,7 +17,10 @@ p2 <- p +
   theme(aspect.ratio = 1) +
   labs(title = 'gaussian')
 
-p1 <- p + geom_jitter() + theme(aspect.ratio = 1) + labs(title = 'jitter')
+p1 <- p + geom_jitter(weight=0) + theme(aspect.ratio = 1) + labs(title = 'jitter')
+
+
+
 
 p3 <- p +
   geom_jitter_quasi(loc = FALSE) +
@@ -34,9 +37,16 @@ library(patchwork)
 p3 + p4
 
 (p0 + p1) / (p2 + p3)
+
 #===================================================
 
 data <- mpg[, c('cty', 'hwy')]
+
+names(data)[1]<- 'x'
+names(data)[2]<- 'y'
+
+
+
 
 # Load required packages
 library(randtoolbox)
@@ -145,6 +155,27 @@ sobol_aux <- function(x) {
   randtoolbox::sobol(n = x[3], dim = 2) |> data.frame()
 }
 
+sobol_seq <- apply(data_over,1, sobol_aux ) |>
+  dplyr::bind_rows()
+
+
+
+
+set.seed(123)
+data<-mpg |> select(cty, hwy)
+names(data)[1]<-'x'
+names(data)[2] <-'y'
+
+a<-compute_jitter_quasi(data, loc=TRUE)
+b<-compute_jitter_quasi(data, loc=FALSE)
+
+sum(a[,1]-b[,1])
+sum(a[,2]-b[,2])
+
+
+dat <- data.frame(x)
+
+
 sobol_seq <- apply(data_over, 1, sobol_aux) |>
   dplyr::bind_rows() |>
   as.matrix()
@@ -169,3 +200,4 @@ ggplot(data) +
   geom_jitter_quasiloc(aes(x + trans_x, y + trans_y)) +
   geom_point(aes(x, y), color = 'red', size = .5) +
   scale_x_continuous(breaks = 1:10)
+
