@@ -17,16 +17,23 @@ p2 <- p +
   theme(aspect.ratio = 1) +
   labs(title = 'gaussian')
 
-p1 <- p + geom_jitter() + theme(aspect.ratio = 1) + labs(title = 'jitter')
+p1 <- p + geom_jitter(weight=0) + theme(aspect.ratio = 1) + labs(title = 'jitter')
 
-p3 <- p + geom_jitter_quasi() + theme(aspect.ratio = 1) + labs(title = 'quasi')
+p3 <- p + geom_jitter_quasi(loc=FALSE) + theme(aspect.ratio = 1) + labs(title = 'quasi')
 
+p4 <- p + geom_jitter_quasi(loc = TRUE) + theme(aspect.ratio = 1) + labs(title = 'quasi loc')
 
 library(patchwork)
-(p0 + p1) / (p2 + p3)
+(p0 + p1) / (p2 + p3 + p4)
 #===================================================
 
 data <- mpg[, c('cty', 'hwy')]
+
+names(data)[1]<- 'x'
+names(data)[2]<- 'y'
+
+
+
 
 # Load required packages
 library(randtoolbox)
@@ -105,3 +112,20 @@ sobol_aux<- function(x){
 }
 sobol_seq <- apply(data_over,1, sobol_aux ) |>
   dplyr::bind_rows()
+
+
+####
+
+set.seed(123)
+data<-mpg |> select(cty, hwy)
+names(data)[1]<-'x'
+names(data)[2] <-'y'
+
+a<-compute_jitter_quasi(data, loc=TRUE)
+b<-compute_jitter_quasi(data, loc=FALSE)
+
+sum(a[,1]-b[,1])
+sum(a[,2]-b[,2])
+
+
+dat <- data.frame(x)
