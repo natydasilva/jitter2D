@@ -1,5 +1,5 @@
 
-`jitter2D` package
+`jitter2D` package <img src="man/figures/logo.png" align="right" height="139" alt="" />
 ======================
 Natalia da Silva, Ignacio Alvarez-Castro & Dianne Cook
 
