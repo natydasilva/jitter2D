@@ -27,11 +27,17 @@ p4 <- p +
   theme(aspect.ratio = 1) +
   labs(title = 'quasiloc')
 
+p +
+  geom_jitter_quasiloc() +
+  geom_point(color='red', size=.5) +
+  theme(aspect.ratio = 1)
+
 library(patchwork)
 
 p3 + p4
 
-(p0 + p1) / (p2 + p3)
+p0+p4
+(p0 + p1) / (p2 + p3+p4)
 
 #===================================================
 
