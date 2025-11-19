@@ -32,7 +32,8 @@ ggplot2::mpg |> ggplot2::ggplot(ggplot2::aes(cty, hwy)) +
 \seealso{
 Other position adjustments: 
 \code{\link{position_jitter_quasi}()},
-\code{\link{position_jitter_quasiloc}()}
+\code{\link{position_jitter_quasiloc}()},
+\code{\link{position_jitter_quasitog}()}
 }
 \concept{position adjustments}
 \keyword{datasets}

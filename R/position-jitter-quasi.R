@@ -15,10 +15,12 @@
 #'   (the behaviour of \pkg{ggplot} 2.2.1 and earlier).
 #' @param loc logical, if its TRUE it uses the Sobol sequence to generate points locally, and it is false generate a complete sobol sequence for all points.
 #' @export
-position_jitter_quasi <- function(weight = NULL,  seed = NA) {
-  ggplot2::ggproto(NULL, PositionJitterquasi,
-                   weight = weight,
-                   seed = seed
+position_jitter_quasi <- function(weight = NULL, seed = NA, loc = FALSE) {
+  ggplot2::ggproto(
+    NULL, PositionJitterquasi,
+    weight = weight,
+    seed = seed,
+    loc = loc
   )
 }
 
@@ -57,6 +59,10 @@ PositionJitterquasi <- ggplot2::ggproto("PositionJitterquasi",  ggplot2:::Positi
 )
 
 
+sobol_aux <- function(x){
+  randtoolbox::sobol(n = x[3], dim = 2) |> data.frame()
+}
+
 compute_jitter_quasi <- function(data, weight = NULL, seed = NA, loc = TRUE) {
 
   weight <- weight  %||% (ggplot2::resolution(data$x, zero = FALSE, TRUE) * 0.4)
@@ -66,11 +72,9 @@ compute_jitter_quasi <- function(data, weight = NULL, seed = NA, loc = TRUE) {
     data_over <- data |> dplyr::group_by(data$x, data$y) |>
       dplyr::summarise(point = dplyr::n())
 
-    sobol_aux<- function(x){
-      randtoolbox::sobol(n = x[3], dim = 2) |> data.frame()
-    }
     sobol_seq <- apply(data_over,1, sobol_aux ) |>
       dplyr::bind_rows() |> as.matrix()
+
   }else{
 
     sobol_seq <- randtoolbox::sobol(n = nrow(data), dim = 2)
@@ -97,6 +101,6 @@ compute_jitter_quasi <- function(data, weight = NULL, seed = NA, loc = TRUE) {
   ggplot2::transform_position(data, function(x) x + trans_x, function(x) x + trans_y)
 
 
-  }
+}
 
 

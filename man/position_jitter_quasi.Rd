@@ -6,7 +6,7 @@
 \alias{PositionJitterquasi}
 \title{2D Jitter points to avoid overplotting based on Sobolev sequence}
 \usage{
-position_jitter_quasi(weight = NULL, seed = NA)
+position_jitter_quasi(weight = NULL, seed = NA, loc = FALSE)
 }
 \arguments{
 \item{weight, }{spread factor.
@@ -35,7 +35,8 @@ ggplot2::mpg |> ggplot2::ggplot(ggplot2::aes(cty, hwy)) +
 \seealso{
 Other position adjustments: 
 \code{\link{position_jitter_gauss}()},
-\code{\link{position_jitter_quasiloc}()}
+\code{\link{position_jitter_quasiloc}()},
+\code{\link{position_jitter_quasitog}()}
 }
 \concept{position adjustments}
 \keyword{datasets}
