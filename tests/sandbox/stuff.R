@@ -1,26 +1,21 @@
 # Examples and attemps
 
 library(ggplot2)
-
 devtools::load_all() # load jitter2d functions
-
-library(ggplot2)
 data(mpg)
 
 p <- mpg |> ggplot(aes(x = cty, y = hwy))
-
 p0 <- p + geom_point() + theme(aspect.ratio = 1) + labs(title = 'Original')
-
 
 p2 <- p +
   geom_jitter_gauss() +
   theme(aspect.ratio = 1) +
   labs(title = 'gaussian')
 
-p1 <- p + geom_jitter(weight=0) + theme(aspect.ratio = 1) + labs(title = 'jitter')
-
-
-
+p1 <- p +
+  geom_jitter(weight = 0) +
+  theme(aspect.ratio = 1) +
+  labs(title = 'jitter')
 
 p3 <- p +
   geom_jitter_quasi(loc = FALSE) +
@@ -40,13 +35,10 @@ p3 + p4
 
 #===================================================
 
+# a second example ----------------
 data <- mpg[, c('cty', 'hwy')]
-
-names(data)[1]<- 'x'
-names(data)[2]<- 'y'
-
-
-
+names(data)[1] <- 'x'
+names(data)[2] <- 'y'
 
 # Load required packages
 library(randtoolbox)
@@ -74,11 +66,12 @@ p3 <- mpg |>
   theme(aspect.ratio = 1) +
   labs(title = 'quasi')
 
-
 library(patchwork)
 p1 + p2 + p3
 
 #===================================================
+
+# mpg example ------------------------------
 data <- mpg[, c('cty', 'hwy')]
 library(dplyr)
 
@@ -127,6 +120,8 @@ sobol_seq <- apply(data_over, 1, sobol_aux) |>
 
 # =========================================================
 # =========================================================
+
+# fixing errors -------------------------
 devtools::load_all() # load jitter2d functions
 library(tidyverse)
 library(ggplot2)
@@ -155,22 +150,20 @@ sobol_aux <- function(x) {
   randtoolbox::sobol(n = x[3], dim = 2) |> data.frame()
 }
 
-sobol_seq <- apply(data_over,1, sobol_aux ) |>
+sobol_seq <- apply(data_over, 1, sobol_aux) |>
   dplyr::bind_rows()
 
 
-
-
 set.seed(123)
-data<-mpg |> select(cty, hwy)
-names(data)[1]<-'x'
-names(data)[2] <-'y'
+data <- mpg |> select(cty, hwy)
+names(data)[1] <- 'x'
+names(data)[2] <- 'y'
 
-a<-compute_jitter_quasi(data, loc=TRUE)
-b<-compute_jitter_quasi(data, loc=FALSE)
+a <- compute_jitter_quasi(data, loc = TRUE)
+b <- compute_jitter_quasi(data, loc = FALSE)
 
-sum(a[,1]-b[,1])
-sum(a[,2]-b[,2])
+sum(a[, 1] - b[, 1])
+sum(a[, 2] - b[, 2])
 
 
 dat <- data.frame(x)
@@ -201,3 +194,23 @@ ggplot(data) +
   geom_point(aes(x, y), color = 'red', size = .5) +
   scale_x_continuous(breaks = 1:10)
 
+# =========================================================
+# =========================================================
+# Dayles example  -----------------------------
+
+devtools::load_all() # load jitter2d functions
+library(tidyverse)
+library(patchwork)
+
+data(dayles)
+
+base <- ggplot(dayles, aes(x = ash, y = beg)) +
+  geom_point(col = 'red', size = .8)
+
+p1 <- base + geom_jitter() + labs(title = 'jitter')
+p2 <- base + geom_jitter_gauss() + labs(title = 'gauss')
+p3 <- base + geom_jitter_quasi() + labs(title = 'sobol')
+p4 <- base + geom_jitter_quasiloc() + labs(title = 'local sobol')
+
+
+(p1 + p2) / (p3 + p4)
