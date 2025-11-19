@@ -213,10 +213,10 @@ data(dayles)
 base <- ggplot(dayles, aes(x = ash, y = beg)) +
   geom_point(col = 'red', size = .8)
 
-p1 <- base + geom_jitter() + labs(title = 'jitter')
-p2 <- base + geom_jitter_gauss() + labs(title = 'gauss')
-p3 <- base + geom_jitter_quasi() + labs(title = 'sobol')
-p4 <- base + geom_jitter_quasiloc() + labs(title = 'local sobol')
+p1 <- base + geom_jitter() + labs(title = 'Jitter') + theme(aspect.ratio = 1)
+p2 <- base + geom_jitter_gauss() + labs(title = 'Gaussian')  + theme(aspect.ratio = 1)
+p3 <- base + geom_jitter_quasi() + labs(title = 'Sobol seq.')+ theme(aspect.ratio = 1)
+p4 <- base + geom_jitter_quasiloc() + labs(title = 'Local Sobol seq.') + theme(aspect.ratio = 1)
 
 
 (p1 + p2) / (p3 + p4)

@@ -38,6 +38,39 @@ devtools::install_github("natydasilva/jitter2D")
 
 ### Basic Example
 
+
+
+
+| ash | beg | count |
+|:---:|:---:|:-----:|
+| 1.5 | 1.5 |   5   |
+|  3  |  2  |   3   |
+|  3  |  4  |   2   |
+| 4.5 |  5  |   1   |
+| 5.5 |  6  |   1   |
+
+```r
+
+data(dayles)
+
+base <- ggplot(dayles, aes(x = ash, y = beg)) +
+  geom_point(col = 'red', size = .8)
+
+p1 <- base + geom_jitter() + labs(title = 'Jitter') + theme(aspect.ratio = 1)
+p2 <- base + geom_jitter_gauss() + labs(title = 'Gaussian')  + theme(aspect.ratio = 1)
+p3 <- base + geom_jitter_quasi() + labs(title = 'Sobol seq.')+ theme(aspect.ratio = 1)
+p4 <- base + geom_jitter_quasiloc() + labs(title = 'Local Sobol seq.') + theme(aspect.ratio = 1)
+
+
+(p1 + p2) / (p3 + p4)
+```
+
+![](tests/sandbox/small.png)
+
+### mpg Example
+
+
+
 ```r
 library(ggplot2)
 library(jitter2D)
@@ -47,25 +80,27 @@ data(mpg)
 
 p <- mpg |> ggplot(aes(x = cty, y = hwy))
 
-p0 <- p + geom_point() + theme(aspect.ratio = 1) + labs(title = 'Original')
+p0 <- p + geom_point() + theme(aspect.ratio = 1) + labs(title = 'Data')
 
 
 p2 <- p +
   geom_jitter_gauss() +
   theme(aspect.ratio = 1) +
-  labs(title = 'gaussian')
+  labs(title = 'Gaussian')
 
-p1 <- p + geom_jitter() + theme(aspect.ratio = 1) + labs(title = 'jitter')
+p1 <- p + geom_jitter() + theme(aspect.ratio = 1) + labs(title = 'Jitter')
 
-p3 <- p + geom_jitter_quasi() + theme(aspect.ratio = 1) + labs(title = 'quasi')
+p3 <- p + geom_jitter_quasi() + theme(aspect.ratio = 1) + labs(title = 'Sobol seq.')
+
+p4 <- p + geom_jitter_quasiloc() + theme(aspect.ratio = 1) + labs(title = 'Local Sobol seq.')
+  
 
 
-
-(p0 + p1) / (p2 + p3) 
+(p0 + p1) / (p2 + p3+p4) 
 
 ```
 
-![](tests/sandbox/plots_ej.png)
+![](tests/sandbox/plot_ej.png)
 
 ## To Do list
 
