@@ -1,0 +1,16 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/reference/dayles.html</loc></url>
+<url><loc>/reference/geom_jitter_gauss.html</loc></url>
+<url><loc>/reference/geom_jitter_quasi.html</loc></url>
+<url><loc>/reference/geom_jitter_quasiloc.html</loc></url>
+<url><loc>/reference/geom_jitter_quasitog.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/position_jitter_gauss.html</loc></url>
+<url><loc>/reference/position_jitter_quasi.html</loc></url>
+<url><loc>/reference/position_jitter_quasiloc.html</loc></url>
+<url><loc>/reference/position_jitter_quasitog.html</loc></url>
+</urlset>
+
