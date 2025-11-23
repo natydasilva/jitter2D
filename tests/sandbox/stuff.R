@@ -29,15 +29,15 @@ p4 <- p +
 
 p +
   geom_jitter_quasiloc() +
-  geom_point(color='red', size=.5) +
+  geom_point(color = 'red', size = .5) +
   theme(aspect.ratio = 1)
 
 library(patchwork)
 
 p3 + p4
 
-p0+p4
-(p0 + p1) / (p2 + p3+p4)
+p0 + p4
+(p0 + p1) / (p2 + p3 + p4)
 
 #===================================================
 
@@ -214,9 +214,73 @@ base <- ggplot(dayles, aes(x = ash, y = beg)) +
   geom_point(col = 'red', size = .8)
 
 p1 <- base + geom_jitter() + labs(title = 'Jitter') + theme(aspect.ratio = 1)
-p2 <- base + geom_jitter_gauss() + labs(title = 'Gaussian')  + theme(aspect.ratio = 1)
-p3 <- base + geom_jitter_quasi() + labs(title = 'Sobol seq.')+ theme(aspect.ratio = 1)
-p4 <- base + geom_jitter_quasiloc() + labs(title = 'Local Sobol seq.') + theme(aspect.ratio = 1)
+p2 <- base +
+  geom_jitter_gauss() +
+  labs(title = 'Gaussian') +
+  theme(aspect.ratio = 1)
+p3 <- base +
+  geom_jitter_quasi() +
+  labs(title = 'Sobol seq.') +
+  theme(aspect.ratio = 1)
+p4 <- base +
+  geom_jitter_quasiloc() +
+  labs(title = 'Local Sobol seq.') +
+  theme(aspect.ratio = 1)
 
 
 (p1 + p2) / (p3 + p4)
+
+# ========================================================
+# KDE options  ------------------------
+# use kde to estimate density and use it to weight the jittering
+
+data(faithful)
+library(ggplot2)
+library(dplyr)
+devtools::load_all() # load jitter2d functions
+
+eruptions.rn <- faithful |>
+  mutate(eruptions = round(eruptions), waiting = 10 * round(waiting / 10))
+
+ggplot(faithful, aes(x = eruptions, y = waiting)) +
+  geom_point() +
+  theme(aspect.ratio = 1)
+
+ggplot(eruptions.rn, aes(x = eruptions, y = waiting)) +
+  geom_point() +
+  theme(aspect.ratio = 1)
+
+ggplot(eruptions.rn, aes(x = eruptions, y = waiting)) +
+  geom_point(data=faithful, aes(x=eruptions, y=waiting), color='chocolate', size=.5)+
+  geom_jitter() +
+  theme(aspect.ratio = 1)
+
+ggplot(eruptions.rn, aes(x = eruptions, y = waiting)) +
+  geom_point(data=faithful, aes(x=eruptions, y=waiting), color='chocolate', size=.5)+
+  geom_jitter_quasiloc() +
+  theme(aspect.ratio = 1)
+
+#install.packages("ks")
+library(ks)
+?kde
+Hlscv(as.matrix(eruptions.rn))
+
+fhat_erup <- kde(x = as.matrix(eruptions.rn),)
+
+plot(fhat_erup)
+
+Hnm(as.matrix(eruptions.rn), G= 2:4 )
+
+tr_pnt <- rkde(n = nrow(eruptions.rn), fhat = fhat_erup)
+
+ggplot(tr_pnt, aes(x = eruptions, y = waiting)) +
+  geom_point() +
+  theme(aspect.ratio = 1)
+
+install.packages('hdrcde')
+library(hdrcde)
+? hdr.2d 
+
+fhat.hdr <- hdr.2d(x=eruptions.rn$eruptions, y=eruptions.rn$waiting))
+
+
