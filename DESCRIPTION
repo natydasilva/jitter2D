@@ -36,7 +36,8 @@ Imports:
     randtoolbox,
     dplyr,
     rlang,
-    ggplot2
+    ggplot2,
+    purrr
 Suggests:
     knitr,
     RColorBrewer,

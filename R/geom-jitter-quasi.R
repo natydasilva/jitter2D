@@ -33,6 +33,7 @@ geom_jitter_quasi <- function(
     loc = FALSE
 ) {
 
+
   if (is.null(position)) {
     position <- position_jitter_quasi(weight = weight, loc = loc)
   }
