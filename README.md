@@ -111,8 +111,9 @@ p4 <- p + geom_jitter_quasi(loc =TRUE) + theme(aspect.ratio = 1) + labs(title = 
 ## To Do list
 
 - Include other extensions: nonparametric instead of Gaussian
-      - kde did'n work
-      - should use hdr_2d form hdrcde package 
+      
+      - kde did'n work as we expected
+      - should use hdr_2d() from hdrcde package 
       
 
 - Work in the pkg documentation, webpage,  sticker
@@ -121,5 +122,4 @@ p4 <- p + geom_jitter_quasi(loc =TRUE) + theme(aspect.ratio = 1) + labs(title = 
 
 - Find an interesting real data example
 
-- 
 
