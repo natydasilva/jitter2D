@@ -20,8 +20,6 @@ If FALSE, generates a global Sobol sequence for all points.}
 }
 \seealso{
 Other position adjustments: 
-\code{\link{position_jitter_gauss}()},
-\code{\link{position_jitter_quasi}()},
-\code{\link{position_jitter_quasiloc}()}
+\code{\link{position_jitter_gauss}()}
 }
 \concept{position adjustments}
