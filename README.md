@@ -108,9 +108,9 @@ p4 <- p + geom_jitter_quasiloc() + theme(aspect.ratio = 1) + labs(title = 'Local
 
 ## To Do list
 
-- Improve quasi random implemantation
+- Include other extensions: nonparametric instead of Gaussian
 
-- Work in the pkg documentation and webpage 
+- Work in the pkg documentation, webpage,  sticker
 
 - Experiment to evaluate different methods
 
