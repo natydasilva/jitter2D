@@ -59,7 +59,7 @@ base <- ggplot(dayles, aes(x = ash, y = beg)) +
 p1 <- base + geom_jitter() + labs(title = 'Jitter') + theme(aspect.ratio = 1)
 p2 <- base + geom_jitter_gauss() + labs(title = 'Gaussian')  + theme(aspect.ratio = 1)
 p3 <- base + geom_jitter_quasi(loc = FALSE) + labs(title = 'Sobol seq.')+ theme(aspect.ratio = 1)
-p4 <- base + geom_jitter_quasi(loc =. TRUE) + labs(title = 'Local Sobol seq.') + theme(aspect.ratio = 1)
+p4 <- base + geom_jitter_quasi(loc = TRUE) + labs(title = 'Local Sobol seq.') + theme(aspect.ratio = 1)
 
 (p1 + p2) / (p3 + p4)
 
@@ -97,7 +97,7 @@ p1 <- p + geom_jitter() + theme(aspect.ratio = 1) + labs(title = 'Jitter')
 
 p3 <- p + geom_jitter_quasi(loc = FALSE) + theme(aspect.ratio = 1) + labs(title = 'Sobol seq.')
 
-p4 <- p + geom_jitter_quasiloc(loc =. TRUE) + theme(aspect.ratio = 1) + labs(title = 'Local Sobol seq.')
+p4 <- p + geom_jitter_quasi(loc =TRUE) + theme(aspect.ratio = 1) + labs(title = 'Local Sobol seq.')
   
 
 
@@ -111,6 +111,9 @@ p4 <- p + geom_jitter_quasiloc(loc =. TRUE) + theme(aspect.ratio = 1) + labs(tit
 ## To Do list
 
 - Include other extensions: nonparametric instead of Gaussian
+      - kde did'n work
+      - should use hdr_2d form hdrcde package 
+      
 
 - Work in the pkg documentation, webpage,  sticker
 
@@ -118,5 +121,5 @@ p4 <- p + geom_jitter_quasiloc(loc =. TRUE) + theme(aspect.ratio = 1) + labs(tit
 
 - Find an interesting real data example
 
-
+- 
 
