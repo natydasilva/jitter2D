@@ -1,41 +1,39 @@
-#' Jittered 2D points based on Sobolev sequence
+#' Jittered 2D points based on Sobol sequence (toggle local/global)
 #'
 #' The jitter geom is a convenient shortcut for
-#' `geom_point(position = "jitterquasi")`. It adds a small amount of random
-#' variation to the location of each point using bivariate normal distribution, and is a useful way of handling
-#' overplotting caused by discreteness in smaller datasets.
+#' `geom_point(position = "jitterquasi")`. It adds a small amount of variation
+#' to the location of each point using bivariate normal distribution derived from
+#' Sobol sequences. This is useful for handling overplotting in smaller datasets.
 #'
 #' @section Aesthetics GeomPoint
 #' @inheritParams ggplot2::layer
 #' @inheritParams ggplot2::geom_point
-#' @inheritParams position_jitter_quasi
+#' @param loc Logical. If TRUE, generates points locally per (x,y) duplicate using Sobol sequence. If FALSE, generates a global Sobol sequence for all points.
+#' @param weight Spread factor. If omitted, it is computed automatically.
 #' @seealso
 #'  [geom_point()] for regular, unjittered points,
-#'  [geom_boxplot()] for another way of looking at the conditional
-#'     distribution of a variable
+#'  [geom_boxplot()] for another way of looking at the conditional distribution of a variable
 #' @export
 #' @examples
-#' # plot categorical variables of mtcars
-#' require("ggplot2")
+#' library(ggplot2)
 #' data(mpg)
-#' ggplot(mpg, aes(x=cty, y=hwy)) + geom_point()
-#' ggplot(mpg, aes(x=cty, y=hwy)) + geom_jitter_quasi(loc=TRUE)
-#'
-geom_jitter_quasi <- function(mapping = NULL, data = NULL,
-                              stat = "identity", position = "jitterquasi",
-                              ...,
-                              weight = NULL,
-                              na.rm = FALSE,
-                              show.legend = NA,
-                              inherit.aes = TRUE, loc = FALSE) {
-  if (!missing(weight)) {
-    if (!missing(position)) {
-      cli::cli_abort(c(
-        "Both {.arg position} and {.arg width} were supplied.",
-        "i" = "Choose a single approach to alter the position."
-      ))
-    }
+#' ggplot(mpg, aes(x = cty, y = hwy)) + geom_point()
+#' ggplot(mpg, aes(x = cty, y = hwy)) + geom_jitter_quasi(loc = TRUE)
+#' ggplot(mpg, aes(x = cty, y = hwy)) + geom_jitter_quasi(loc = FALSE)
+geom_jitter_quasi <- function(
+    mapping = NULL,
+    data = NULL,
+    stat = "identity",
+    position = NULL,  # <- default NULL instead of "jitterquasi"
+    ...,
+    weight = NULL,
+    na.rm = FALSE,
+    show.legend = NA,
+    inherit.aes = TRUE,
+    loc = FALSE
+) {
 
+  if (is.null(position)) {
     position <- position_jitter_quasi(weight = weight, loc = loc)
   }
 
@@ -51,6 +49,6 @@ geom_jitter_quasi <- function(mapping = NULL, data = NULL,
       na.rm = na.rm,
       ...
     )
-
   )
 }
+
