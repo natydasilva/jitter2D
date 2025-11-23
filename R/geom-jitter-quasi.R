@@ -8,8 +8,7 @@
 #' @section Aesthetics GeomPoint
 #' @inheritParams ggplot2::layer
 #' @inheritParams ggplot2::geom_point
-#' @param loc Logical. If TRUE, generates points locally per (x,y) duplicate.
-#'   If FALSE, generates a global Sobol sequence for all points.
+#' @param loc Logical. If TRUE, generates points locally per (x,y) duplicate using Sobol sequence. If FALSE, generates a global Sobol sequence for all points.
 #' @param weight Spread factor. If omitted, it is computed automatically.
 #' @seealso
 #'  [geom_point()] for regular, unjittered points,

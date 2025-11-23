@@ -110,8 +110,7 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
 
-\item{loc}{Logical. If TRUE, generates points locally per (x,y) duplicate.
-If FALSE, generates a global Sobol sequence for all points.}
+\item{loc}{Logical. If TRUE, generates points locally per (x,y) duplicate using Sobol sequence. If FALSE, generates a global Sobol sequence for all points.}
 }
 \description{
 The jitter geom is a convenient shortcut for
