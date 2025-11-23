@@ -2,6 +2,6 @@
 
 export(PositionJittergauss)
 export(geom_jitter_gauss)
-export(geom_jitter_quasitog)
+export(geom_jitter_quasi)
 export(position_jitter_gauss)
-export(position_jitter_quasitog)
+export(position_jitter_quasi)

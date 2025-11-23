@@ -1,7 +1,7 @@
 #' Jittered 2D points based on Sobol sequence (toggle local/global)
 #'
 #' The jitter geom is a convenient shortcut for
-#' `geom_point(position = "jitterquasitog")`. It adds a small amount of variation
+#' `geom_point(position = "jitterquasi")`. It adds a small amount of variation
 #' to the location of each point using bivariate normal distribution derived from
 #' Sobol sequences. This is useful for handling overplotting in smaller datasets.
 #'
@@ -19,13 +19,13 @@
 #' library(ggplot2)
 #' data(mpg)
 #' ggplot(mpg, aes(x = cty, y = hwy)) + geom_point()
-#' ggplot(mpg, aes(x = cty, y = hwy)) + geom_jitter_quasitog(loc = TRUE)
-#' ggplot(mpg, aes(x = cty, y = hwy)) + geom_jitter_quasitog(loc = FALSE)
-geom_jitter_quasitog <- function(
+#' ggplot(mpg, aes(x = cty, y = hwy)) + geom_jitter_quasi(loc = TRUE)
+#' ggplot(mpg, aes(x = cty, y = hwy)) + geom_jitter_quasi(loc = FALSE)
+geom_jitter_quasi <- function(
     mapping = NULL,
     data = NULL,
     stat = "identity",
-    position = NULL,  # <- default NULL instead of "jitterquasitog"
+    position = NULL,  # <- default NULL instead of "jitterquasi"
     ...,
     weight = NULL,
     na.rm = FALSE,
@@ -35,7 +35,7 @@ geom_jitter_quasitog <- function(
 ) {
 
   if (is.null(position)) {
-    position <- position_jitter_quasitog(weight = weight, loc = loc)
+    position <- position_jitter_quasi(weight = weight, loc = loc)
   }
 
   ggplot2::layer(

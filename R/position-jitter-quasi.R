@@ -7,17 +7,17 @@
 #' @param loc Logical. If TRUE, generates points locally per (x,y) duplicate.
 #'   If FALSE, generates a global Sobol sequence for all points.
 #' @export
-position_jitter_quasitog <- function(weight = NULL, seed = NA, loc = FALSE) {
+position_jitter_quasi <- function(weight = NULL, seed = NA, loc = FALSE) {
   ggplot2::ggproto(
-    NULL, PositionJitterQuasitog,
+    NULL, PositionJitterQuasi,
     weight = weight,
     seed = seed,
     loc = loc
   )
 }
 
-PositionJitterQuasitog <- ggplot2::ggproto(
-  "PositionJitterQuasitog",
+PositionJitterQuasi <- ggplot2::ggproto(
+  "PositionJitterQuasi",
   ggplot2:::Position,
   seed = NA,
   loc = FALSE,
@@ -38,11 +38,11 @@ PositionJitterQuasitog <- ggplot2::ggproto(
   },
 
   compute_panel = function(self, data, params, scales) {
-    compute_jitter_quasitog(data, weight = params$weight, seed = params$seed, loc = params$loc)
+    compute_jitter_quasi(data, weight = params$weight, seed = params$seed, loc = params$loc)
   }
 )
 
-compute_jitter_quasitog <- function(data, weight = NULL, seed = NA, loc = TRUE) {
+compute_jitter_quasi <- function(data, weight = NULL, seed = NA, loc = TRUE) {
 
   weight <- weight %||% (ggplot2::resolution(data$x, zero = FALSE, TRUE) * 0.4)
 

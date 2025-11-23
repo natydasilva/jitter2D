@@ -20,7 +20,7 @@ Currently there are two implemented methods:
 
 - `geom_jitter_gauss`: Adds Bivariate Gaussian random noise 
 
-- `geom_jitter_quasi`:  Adds Quasi-random noise based on Sobolev sequences
+- `geom_jitter_quasi`:  Adds Quasi-random noise based on Sobolev sequences. If loc = TRUE a local sobol sequence is generated and if loc = FALSE the sequence is generated for the complete data set.
 
 ## Installation
 
@@ -58,8 +58,8 @@ base <- ggplot(dayles, aes(x = ash, y = beg)) +
 
 p1 <- base + geom_jitter() + labs(title = 'Jitter') + theme(aspect.ratio = 1)
 p2 <- base + geom_jitter_gauss() + labs(title = 'Gaussian')  + theme(aspect.ratio = 1)
-p3 <- base + geom_jitter_quasitog(loc = FALSE) + labs(title = 'Sobol seq.')+ theme(aspect.ratio = 1)
-p4 <- base + geom_jitter_quasitog(loc =. TRUE) + labs(title = 'Local Sobol seq.') + theme(aspect.ratio = 1)
+p3 <- base + geom_jitter_quasi(loc = FALSE) + labs(title = 'Sobol seq.')+ theme(aspect.ratio = 1)
+p4 <- base + geom_jitter_quasi(loc =. TRUE) + labs(title = 'Local Sobol seq.') + theme(aspect.ratio = 1)
 
 (p1 + p2) / (p3 + p4)
 
@@ -95,9 +95,9 @@ p2 <- p +
 
 p1 <- p + geom_jitter() + theme(aspect.ratio = 1) + labs(title = 'Jitter')
 
-p3 <- p + geom_jitter_quasi() + theme(aspect.ratio = 1) + labs(title = 'Sobol seq.')
+p3 <- p + geom_jitter_quasi(loc = FALSE) + theme(aspect.ratio = 1) + labs(title = 'Sobol seq.')
 
-p4 <- p + geom_jitter_quasiloc() + theme(aspect.ratio = 1) + labs(title = 'Local Sobol seq.')
+p4 <- p + geom_jitter_quasiloc(loc =. TRUE) + theme(aspect.ratio = 1) + labs(title = 'Local Sobol seq.')
   
 
 
