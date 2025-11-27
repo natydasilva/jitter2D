@@ -6,6 +6,11 @@ epanechnikov_kernel <- function(u) {
   ifelse(abs(u) <= 1, 0.75 * (1 - u^2), 0)
 }
 
+gaussian_kernel <- function(u, v = 1) {
+  exp(-u^2 / (2 * v))
+}
+
+
 # Weighted mean function
 weighted_mean <- function(x, weights) {
   sum(weights * x) / sum(weights)
@@ -68,7 +73,7 @@ local_correlation <- function(data, bandwidth = .5, coords = NULL) {
     #distances <- sqrt(rowSums((coords - matrix(coords[i, ], n, 2, byrow = TRUE))^2))
 
     # Calculate weights using Epanechnikov kernel
-    weights <- epanechnikov_kernel(distances / bandwidth)
+    weights <- gaussian_kernel(distances / bandwidth)
 
     # Check if we have enough non-zero weights
     if (sum(weights > 0) < 3) {
