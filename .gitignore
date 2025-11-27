@@ -4,3 +4,6 @@
 *.Rproj
 *.Rhistory
 
+*.html
+*.DS_Store
+
