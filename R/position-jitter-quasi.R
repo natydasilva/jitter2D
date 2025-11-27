@@ -9,7 +9,8 @@
 #' @export
 position_jitter_quasi <- function(weight = NULL, seed = NA, loc = FALSE) {
   ggplot2::ggproto(
-    NULL, PositionJitterQuasi,
+    NULL,
+    PositionJitterQuasi,
     weight = weight,
     seed = seed,
     loc = loc
@@ -38,12 +39,16 @@ PositionJitterQuasi <- ggplot2::ggproto(
   },
 
   compute_panel = function(self, data, params, scales) {
-    compute_jitter_quasi(data, weight = params$weight, seed = params$seed, loc = params$loc)
+    compute_jitter_quasi(
+      data,
+      weight = params$weight,
+      seed = params$seed,
+      loc = params$loc
+    )
   }
 )
 
 compute_jitter_quasi <- function(data, weight = NULL, seed = NA, loc = TRUE) {
-
   weight <- weight %||% (ggplot2::resolution(data$x, zero = FALSE, TRUE) * 0.4)
 
   if (isTRUE(loc)) {
@@ -55,24 +60,29 @@ compute_jitter_quasi <- function(data, weight = NULL, seed = NA, loc = TRUE) {
       randtoolbox::sobol(n = n, dim = 2) |> as.data.frame()
     }) |>
       as.matrix()
-
   } else {
     # Global Sobol
     sobol_seq <- randtoolbox::sobol(n = nrow(data), dim = 2)
   }
 
   # Transform uniform to standard normal
-  normal_seq <- stats::qnorm(sobol_seq)
+  # normal_seq <- stats::qnorm(sobol_seq)
 
   # Bivariate Gaussian transformation
   vv <- stats::var(cbind(data$y, data$x), na.rm = TRUE)
   L <- chol(vv)
+
+  if (vv[1, 2] < 0) {
+    sobol_seq[, 2] <- 1 - sobol_seq[, 2]
+  }
+
+  normal_seq <- stats::qnorm(sobol_seq)
   noise <- t(L %*% t(normal_seq))
 
   trans_x <- weight * noise[, 2]
   trans_y <- weight * noise[, 1]
 
-  ggplot2::transform_position(data,
-                              function(x) x + trans_x,
-                              function(y) y + trans_y)
+  ggplot2::transform_position(data, function(x) x + trans_x, function(y) {
+    y + trans_y
+  })
 }
