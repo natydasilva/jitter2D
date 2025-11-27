@@ -4,7 +4,7 @@ library(ggplot2)
 devtools::load_all() # load jitter2d functions
 data(mpg)
 
-p <- mpg |> ggplot(aes(x = cty, y = hwy))
+p <- mpg |> ggplot(aes(x = cty, y = -hwy))
 p0 <- p + geom_point() + theme(aspect.ratio = 1) + labs(title = 'Original')
 
 p2 <- p +
@@ -18,7 +18,7 @@ p1 <- p +
   labs(title = 'jitter')
 
 p3 <- p +
-  geom_jitter_quasi(loc = FALSE) +
+  geom_jitter_quasi(loc = TRUE) +
   theme(aspect.ratio = 1) +
   labs(title = 'quasi')
 
@@ -40,7 +40,28 @@ p0 + p4
 (p0 + p1) / (p2 + p3 + p4)
 
 #===================================================
+# understand sobol sequendce  --------------
 
+library(randtoolbox)
+
+
+sobol(n = 3, dim = 2) |> qnorm()
+
+sobol(n = 3, dim = 2) |>
+  data.frame() |>
+  slice(1:10) |>
+  ggplot() +
+  geom_point(aes(X1, X2))
+
+
+halton(n = 3, dim = 2) |>
+  data.frame() |>
+  slice(1:10) |>
+  ggplot() +
+  geom_point(aes(X1, X2))
+
+
+#===================================================
 # a second example ----------------
 data <- mpg[, c('cty', 'hwy')]
 names(data)[1] <- 'x'
@@ -210,23 +231,33 @@ library(patchwork)
 
 data(dayles)
 
-base <- ggplot(dayles, aes(x = ash, y = beg)) +
-  geom_point(col = 'red', size = .8)
 
-p1 <- base + geom_jitter() + labs(title = 'Jitter') + theme(aspect.ratio = 1)
+base <- ggplot(dayles, aes(x = ash, y = -beg))
+
+p1 <- base +
+  geom_jitter() +
+  geom_point(col = 'red', size = .8) +
+  labs(title = 'Jitter') +
+  theme(aspect.ratio = 1)
+
 p2 <- base +
   geom_jitter_gauss() +
+  geom_point(col = 'red', size = .8) +
   labs(title = 'Gaussian') +
   theme(aspect.ratio = 1)
 p3 <- base +
-  geom_jitter_quasi() +
+  geom_jitter_quasi(loc = FALSE) +
+  geom_point(col = 'red', size = .8) +
   labs(title = 'Sobol seq.') +
   theme(aspect.ratio = 1)
+
 p4 <- base +
-  geom_jitter_quasiloc() +
+  geom_jitter_quasi(loc = TRUE) +
+  geom_point(col = 'red', size = .8) +
   labs(title = 'Local Sobol seq.') +
   theme(aspect.ratio = 1)
 
+pp <- ggplot_build(p4)
 
 (p1 + p2) / (p3 + p4)
 
@@ -251,12 +282,22 @@ ggplot(eruptions.rn, aes(x = eruptions, y = waiting)) +
   theme(aspect.ratio = 1)
 
 ggplot(eruptions.rn, aes(x = eruptions, y = waiting)) +
-  geom_point(data=faithful, aes(x=eruptions, y=waiting), color='chocolate', size=.5)+
+  geom_point(
+    data = faithful,
+    aes(x = eruptions, y = waiting),
+    color = 'chocolate',
+    size = .5
+  ) +
   geom_jitter() +
   theme(aspect.ratio = 1)
 
 ggplot(eruptions.rn, aes(x = eruptions, y = waiting)) +
-  geom_point(data=faithful, aes(x=eruptions, y=waiting), color='chocolate', size=.5)+
+  geom_point(
+    data = faithful,
+    aes(x = eruptions, y = waiting),
+    color = 'chocolate',
+    size = .5
+  ) +
   geom_jitter_quasiloc() +
   theme(aspect.ratio = 1)
 
@@ -265,11 +306,11 @@ library(ks)
 ?kde
 Hlscv(as.matrix(eruptions.rn))
 
-fhat_erup <- kde(x = as.matrix(eruptions.rn),)
+fhat_erup <- kde(x = as.matrix(eruptions.rn), )
 
 plot(fhat_erup)
 
-Hnm(as.matrix(eruptions.rn), G= 2:4 )
+Hnm(as.matrix(eruptions.rn), G = 2:4)
 
 tr_pnt <- rkde(n = nrow(eruptions.rn), fhat = fhat_erup)
 
@@ -277,10 +318,41 @@ ggplot(tr_pnt, aes(x = eruptions, y = waiting)) +
   geom_point() +
   theme(aspect.ratio = 1)
 
-install.packages('hdrcde')
+#install.packages('hdrcde')
 library(hdrcde)
-? hdr.2d 
+?hdr.2d
 
-fhat.hdr <- hdr.2d(x=eruptions.rn$eruptions, y=eruptions.rn$waiting))
+fhat.hdr <- hdr.2d(x = eruptions.rn$eruptions, y = eruptions.rn$waiting)
 
+#=======================================================
 
+# Gaussian local example ------------------------
+
+# ============================================================================
+# 1. Generate synthetic dataset (mixture of Gaussians)
+# ============================================================================
+generate_dataset <- function(n = 500) {
+  # Create bivariate data with correlation structure
+  n1 <- round(0.6 * n)
+  n2 <- n - n1
+
+  # First component (correlated)
+  mean1 <- c(2, 2)
+  sigma1 <- matrix(c(1.5, 0.8, 0.8, 1.0), 2, 2)
+  data1 <- MASS::mvrnorm(n1, mean1, sigma1)
+
+  # Second component (correlated)
+  mean2 <- c(6, 6)
+  sigma2 <- matrix(c(1.0, -0.6, -0.6, 1.5), 2, 2)
+  data2 <- MASS::mvrnorm(n2, mean2, sigma2)
+
+  data <- rbind(data1, data2)
+  colnames(data) <- c("X", "Y")
+  return(as.data.frame(data))
+}
+library(tidyverse)
+
+df <- generate_dataset(500) |>
+  mutate(X = round(X), Y = round(Y))
+
+ggplot(df, aes(X, Y)) + geom_point()
