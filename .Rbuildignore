@@ -3,3 +3,6 @@
 
 ^tests/sandbox$
 
+^tests/refs$
+^tests/paper$
+
