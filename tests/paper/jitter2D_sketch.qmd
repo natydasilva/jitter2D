@@ -1,0 +1,86 @@
+---
+title: "Two dimensional jiterred scatter plot"
+format: html
+number-sections: true
+---
+
+
+# Introduction 
+
+Jittering scatter plots is amazing ... 
+
+## Related work 
+- 2003 **Intelligently Resolving Point Occlusion** Trutschl
+
+- 2017 **Gatherplots: Generalized Scatterplots for Nominal Data**, Park
+
+- 2018 **"Progressive Multi-Jittered Sample Sequences"** (Christensen et al., 2018, Pixar) 
+
+- 1996 **"Quasi-Monte Carlo Rendering with Adaptive Sampling"** (1996) - Halton better than sobol
+
+- **Physically Based Rendering** textbook (Pharr et al.) - Sobol is better than Halton 
+
+-  2017 **Quasi-random numbers for copula models** *Statistics and Computing*. Cambou, M., Hofert, M., & Lemieux, C.
+
+- 2021 **Swarm Plot: Data Redistribution in Non-Random Techniche** Idrus, 
+
+- 2021 **ExplorerTree: A Focus+Context Exploration Approach for 2D Embeddings** Marcilio 
+
+- 2021 **Blue noise points**, van Onzenoodt
+
+- 2023 **Gatherplot: A Non-Overlapping Scatterplot** Park 
+
+- 2024 **De-cluttering Scatterplots with Integral Images** Rave
+
+
+## Goal and structure 
+
+Introduce methods for jittering in 2D, implement an R package to extends geom_jitter() 
+
+- describe methods
+- show aplications 
+- discuss limitations and next steps 
+
+# Methods 
+
+Combine 3 parameters for describe jitter in 2D, each parameter has two posible levels. 
+
+- Noise: Random or Quasirandom
+
+- Direction: Global or Local 
+
+- Voronoi: True or False. 
+
+Noise is related on how the jittering is generated. Traditionally in 1D is randomly generated with an uniform distribution, for 2D a random generation can be done based on a bivariate normal. Several quasirandom schemes has been proposed, in 2D Sobol sequence seems to be a good 
+choice. 
+
+Direction controls how the observed data influence the jittering, in particular the correlation structure of data affect the jittering direction through the correlation coefficient. Correlation can be computed using all points (global) or with the closer points to the one is being jittered (local). A local correlation can be computed using only neighbors or using kernel weights. 
+
+When Voronoi is TRUE, jittered points are forced to lie within the Voronoi cell of the corresponding observed point. This ensures the resulting jittered plot does not overlap and naturally controls the amount of jittering.  (**Not sure how hard or if this is posible to do!!**)
+
+Combining the 3 parameters get 8 ways to jitter a scatter plots. 
+
+# Application examples 
+
+## Toy examples 
+- dayless
+
+- mtcars 
+
+- faithfull (rounded)
+
+- a non-linear example 
+
+## More interesting cases 
+
+- Survey data scatter plot with subsampling method
+
+- Age and Deathds? Exedant death in covid? 
+
+
+# Discussion 
+
+A next step could be to extend to categorical variables. Use association coefficient instead 
+of correlation? 
+
+
