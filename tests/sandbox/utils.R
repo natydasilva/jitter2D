@@ -1,4 +1,5 @@
 # utils functions
+
 # Epanechnikov kernel function
 epanechnikov_kernel <- function(u) {
   # u is the scaled distance (distance / bandwidth)
@@ -108,15 +109,35 @@ gendt_bimodal <- function(n = 500) {
 
   # First component (correlated)
   mean1 <- c(1, 1)
-  sigma1 <- matrix(c(1.5, 0.8, 0.8, 1.0), 2, 2)
+  sigma1 <- matrix(c(1, 0.8, 0.8, 1.5), 2, 2)
   data1 <- MASS::mvrnorm(n1, mean1, sigma1)
 
   # Second component (correlated)
-  mean2 <- c(6, 6)
-  sigma2 <- matrix(c(1.0, -0.6, -0.6, 1.5), 2, 2)
+  mean2 <- c(4, 4)
+  sigma2 <- matrix(c(1.0, -0.8, -0.8, 1.5), 2, 2)
   data2 <- MASS::mvrnorm(n2, mean2, sigma2)
 
   data <- rbind(data1, data2)
   colnames(data) <- c("x", "y")
   return(as.data.frame(data))
+}
+
+gendt_dayles <- function(n = 1) {
+  n <- nrow(dayles)
+  colnames(dayles) <- c("x", "y")
+  dayles[1:n, ]
+}
+
+gendt_nonlinear <- function(n = 500) {
+  x <- runif(n, 0, 10)
+  y <- sin(x) + rnorm(n, sd = 0.3)
+  data <- data.frame(x = x, y = y)
+  return(data)
+}
+
+gendt_mpg <- function(n = 1) {
+  n <- nrow(mpg)
+  dt <- mpg[1:n, c('cyl', 'hwy')]
+  colnames(dt) <- c("x", "y")
+  dt
 }
