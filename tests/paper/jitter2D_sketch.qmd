@@ -2,77 +2,59 @@
 title: "Two dimensional jiterred scatter plot"
 format: html
 number-sections: true
+bibliography: references.bib
 ---
 
 # Introduction
 
-Jittering scatter plots is amazing ...
+We have included some ideas and examples for Jittered scatter plots in this document.
 
-## Related work
+Some related work: [@trutschl2003intelligently], [@park2017gatherplots], [@christensen2018progressive], [@ohbuchi1996quasi], [@pharr2023physically], [@cambou2017quasi], [@idrus2021swarm], [@marcilio2021explorertree], [@van2021blue], [@park2023gatherplot] and [@rave2024cluttering] .
 
--   2003 **Intelligently Resolving Point Occlusion** Trutschl
 
--   2017 **Gatherplots: Generalized Scatterplots for Nominal Data**, Park
-
--   2018 **"Progressive Multi-Jittered Sample Sequences"** (Christensen et al., 2018, Pixar)
-
--   1996 **"Quasi-Monte Carlo Rendering with Adaptive Sampling"** (1996) - Halton better than sobol
-
--   **Physically Based Rendering** textbook (Pharr et al.) - Sobol is better than Halton
-
--   2017 **Quasi-random numbers for copula models** *Statistics and Computing*. Cambou, M., Hofert, M., & Lemieux, C.
-
--   2021 **Swarm Plot: Data Redistribution in Non-Random Techniche** Idrus,
-
--   2021 **ExplorerTree: A Focus+Context Exploration Approach for 2D Embeddings** Marcilio
-
--   2021 **Blue noise points**, van Onzenoodt
-
--   2023 **Gatherplot: A Non-Overlapping Scatterplot** Park
-
--   2024 **De-cluttering Scatterplots with Integral Images** Rave
 
 ## Goal and structure
+Introduce methods for jittering in 2D and implement an R package that extends `geom_jitter()`
 
-Introduce methods for jittering in 2D, implement an R package to extends geom_jitter()
+-   Describe some methods/ideas
+-   Show application examples
+-   Discuss limitations and next steps
 
--   describe methods
--   show aplications
--   discuss limitations and next steps
 
 # Methods
-Combine 2 parameters for describe jitter in 2D, each parameter has two posible levels.
+Combine 2 parameters to describe jittering in 2D, where each parameter has two possible levels.
 
--   Noise: Random or Quasirandom
+-   Noise: Random or Quasi-random
 
 -   Direction: Global or Local
 
+Noise is related to how the jittering is generated. Traditionally in 1D, jittering is randomly generated with a uniform distribution. For 2D, random generation can be done based on a bivariate normal distribution. For a given point $(x_i, y_i)$, the first step is to compute initial noise, which is done as:
 
-Noise is related on how the jittering is generated. Traditionally in 1D is randomly generated with an uniform distribution, for 2D a random generation can be done based on a bivariate normal. For a given point, $(x_i, y_i)$ a first step is to compute initial noise, this is done as 
 $$
 \begin{pmatrix} e_x \\ e_y \end{pmatrix} \sim N(0 , 
 \begin{pmatrix} 1/9 & 0 \\ 0 & 1/9 \end{pmatrix}
 )
 $$
 
-Alternatively, if there are $r$ observations in the same position, a two-dimensional quasi-random sequence of $r$ points. Several quasi-random schemes has been proposed, in 2D Sobol sequence seems to be a good choice.
+Alternatively, if there are $r$ observations in the same position, a two-dimensional quasi-random sequence of $r$ points can be used. Several quasi-random schemes have been proposed; in 2D, Sobol sequences seem to be a good choice.
+
 $$
-\begin{pmatrix} e_x \\ e_y \end{pmatrix} \sim Sobol(r, dimensions = 2) 
+\begin{pmatrix} e_x \\ e_y \end{pmatrix} \sim Sobol(r, dim = 2) 
 $$
 
-The second step is to rotate the noise according to the observed direction in the data.  Direction controls how the observed data influence the jittering, in particular the correlation structure of data affect the jittering direction through the correlation coefficient. 
+The second step is to rotate the noise according to the observed direction in the data. Direction controls how the observed data influence the jittering; in particular, the correlation structure of the data affects the jittering direction through the correlation coefficient.
 
 $$
 \begin{pmatrix} \Delta_x \\ \Delta_y \end{pmatrix} = \mbox{chol} \left[  \begin{pmatrix} 1 & \rho_{xy} \\ \rho_{xy} & 1 \end{pmatrix}  \right]^{\top} \begin{pmatrix} e_x & e_y \end{pmatrix} 
 $$
 
-where $\mbox{chol}[]$ stands for Cholleski decomposition. (is this having an effect on variance too??)
+where $\mbox{chol}[]$ stands for Cholesky decomposition. (is this having an effect on variance too??)
 
-Correlation, $\rho_{xy}$, can be computed using all points (global) or with the closer points to the one is being jittered (local). A local correlation can be computed using only neighbors or using kernel weights.
+Correlation, $\rho_{xy}$, can be computed using all points (global) or with the closer points to the one being jittered (local). A local correlation can be computed using only neighbors or using kernel weights.
 
-Combining the 2 parameters get 4 ways to jitter a scatter plots: R-L, R-G, Q-L, Q-G
+Combining the 2 parameters gives 4 ways to jitter scatter plots: R-L, R-G, Q-L, Q-G.
 
-A third parameter that might worth to add is Vronoi constraint. When Voronoi is TRUE, jittered points are forced to lie within the Voronoi cell of the corresponding observed point. This ensures the resulting jittered plot does not overlap and naturally controls the amount of jittering. (**Not sure how hard or if this is posible to do!!**)
+A third parameter that might be worth adding is Voronoi constraint. When Voronoi is TRUE, jittered points are forced to lie within the Voronoi cell of the corresponding observed point. This ensures the resulting jittered plot does not overlap and naturally controls the amount of jittering. (**Not sure how hard or if this is possible to do!!**)
 
 # Application examples
 
@@ -124,11 +106,10 @@ exapmle_fn <- function(genff, nn) {
 
 ## Toy examples
 
-Each figure is a type of data plot, to explore jittering in different data characteristics. There are 6 panels, the original data, the rounded data, and 4 jittered versions (random-local, random-global, quasi-local, quasi-global). 
+Each figure is a type of data plot to explore jittering under different data characteristics. There are 6 panels: the original data, the rounded data, and 4 jittered versions (random-local, random-global, quasi-local, quasi-global).
 
+@fig-dayles shows jittering in the Dayles data, where the original and rounded versions are very similar. The quasi-random options are nice since they do not jitter when there is a single point. It is possible to set the random options with the same behavior, jittering only the second point in a position.
 
-@fig-dayles show jitter in Dayles data, here original and rounded are veri similar. The quasirandom options are nice since do not jitter 
-when there is a single point. It is posible to set the random options with the same bechavior, only jitter the second point in a positionl. 
 ```{r}
 #| label: fig-dayles
 #| message: false
@@ -138,7 +119,7 @@ when there is a single point. It is posible to set the random options with the s
 exapmle_fn(genff = gendt_dayles, nn = 100)
 ```
 
-@fig-mpg show the mpg data, this is the exapmle used in the regular `geom_jitter()` page, maybe is not a good example for 2D jittering since one of the variables is not really numerical? In any case, the global correlation methods show lower variability (why?) and some data structure, there is no correlation when local methods are used. 
+@fig-mpg shows the mpg data, which is the example used in the regular `geom_jitter()` page. This may not be a good example for 2D jittering since one of the variables is not really numerical. In any case, the global correlation methods show lower variability (why?) and some data structure, while there is no correlation when local methods are used.
 
 ```{r}
 #| label: fig-mpg
@@ -150,11 +131,11 @@ exapmle_fn(genff = gendt_dayles, nn = 100)
 exapmle_fn(genff = gendt_mpg, nn = 100)
 ```
 
-@fig-bimodal show bimodal data, here the rounded data show a lot of overplotting. Using local correlations seems to work better to respect the mixture structure.  
+@fig-bimodal shows bimodal data, where the rounded data show a lot of overplotting. Using local correlations seems to work better to respect the mixture structure.
 
-The random methods produce more variability than the original data, this should be possible to control with some weight parameter. 
+The random methods produce more variability than the original data; this should be possible to control with some weight parameter.
 
-It is visible that quasirandom produce jitter noise in diagonal from upper-left to bottom-right, this due to the Sobol sequence. When data is positively correlated this produce jittering orthogonal to the main direction but if the correlation is negative the jittering is aligned with the main direction. This is odd... 
+It is visible that quasi-random methods produce jitter noise diagonally from upper-left to bottom-right. This is due to the Sobol sequence. When data is positively correlated, this produces jittering orthogonal to the main direction, but if the correlation is negative, the jittering is aligned with the main direction. This is odd...
 
 ```{r}
 #| label: fig-bimodal
@@ -165,8 +146,8 @@ It is visible that quasirandom produce jitter noise in diagonal from upper-left 
 #| 
 exapmle_fn(genff = gendt_bimodal, nn = 100)
 ```
-
-@fig-nonlinear shows results for non-linear data, it is harder to recover the original data structure... 
+ 
+@fig-nonlinear shows results for non-linear data; it is harder to recover the original data structure...
 
 ```{r}
 #| label: fig-nonlinear
@@ -182,8 +163,9 @@ exapmle_fn(genff = gendt_nonlinear, nn = 50)
 
 -   Survey data scatter plot with subsampling method
 
--   Age and Deathds? Excess death in covid?
+-   Age and deaths? Excess deaths in COVID?
 
 # Discussion
 
-A next step could be to extend to categorical variables. Use association coefficient instead of correlation?
+A next step could be to extend this to categorical variables. Use association coefficients instead of correlation?
+
