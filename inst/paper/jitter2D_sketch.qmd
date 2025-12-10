@@ -182,6 +182,10 @@ Real cases/data scenarios where 2D-jittering is useful/needed:
 
 - more ??? 
 
+- survey, weighted data
+- scagnostics work
+- where one area measured on one scale and another on a different scale, 
+- viewing bootstrap samples
 
 
 # Discussion
