@@ -1,6 +1,6 @@
 ---
 title: "Two dimensional jiterred scatter plot"
-format: html
+format: pdf
 number-sections: true
 bibliography: references.bib
 ---
