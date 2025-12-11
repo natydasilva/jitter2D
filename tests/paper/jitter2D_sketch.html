@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Jittered scatterplots</title>
+<title>Two dimensional jiterred scatter plot</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -95,7 +95,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Jittered scatterplots</h1>
+<h1 class="title">Two dimensional jiterred scatter plot</h1>
 </div>
 
 
@@ -115,16 +115,9 @@ window.Quarto = {
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
 <p>We have included some ideas and examples for Jittered scatter plots in this document.</p>
-<section id="related-work" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="related-work"><span class="header-section-number">1.1</span> Related work</h2>
-<p>Some alternative plots to deal with over plotting are gather plots <span class="citation" data-cites="park2017gatherplots">Park, Kim, and Elmqvist (<a href="#ref-park2023gatherplot" role="doc-biblioref">2023</a>)</span>, also in dimensionality reduction vizualization exploretree plot<span class="citation" data-cites="marcilio2021explorertree">(<a href="#ref-marcilio2021explorertree" role="doc-biblioref">Marcı́lio-Jr et al. 2021</a>)</span>, and recently integral images to “de-cluttering” scatter plots <span class="citation" data-cites="rave2024cluttering">(<a href="#ref-rave2024cluttering" role="doc-biblioref">Rave, Molchanov, and Linsen 2024</a>)</span>.</p>
-<p>Adding noise in quasi-random way appears in swarm plot <span class="citation" data-cites="idrus2021swarm">(<a href="#ref-idrus2021swarm" role="doc-biblioref">Idrus et al. 2021</a>)</span>, blue noise plots <span class="citation" data-cites="van2021blue">(<a href="#ref-van2021blue" role="doc-biblioref">Onzenoodt et al. 2021</a>)</span>, SOM based jittering <span class="citation" data-cites="trutschl2003intelligently">(<a href="#ref-trutschl2003intelligently" role="doc-biblioref">Trutschl, Grinstein, and Cvek 2003</a>)</span>, or beeswarm plot (REF???). Usually these methods are designed to jitter in one dimension.</p>
-<p>Quasi-random methods has being studied, <span class="citation" data-cites="christensen2018progressive">Christensen, Kensler, and Kilpatrick (<a href="#ref-christensen2018progressive" role="doc-biblioref">2018</a>)</span> compare methods for quasirandom genrators in 2D. These methods are used in several scenarios, applied to copulas <span class="citation" data-cites="cambou2017quasi">(<a href="#ref-cambou2017quasi" role="doc-biblioref">Cambou, Hofert, and Lemieux 2017</a>)</span> or quasi montecarlo<span class="citation" data-cites="ohbuchi1996quasi">(<a href="#ref-ohbuchi1996quasi" role="doc-biblioref">Ohbuchi and Aono 1996</a>)</span></p>
-<p><span class="citation" data-cites="Wilkinson01081999">Wilkinson (<a href="#ref-Wilkinson01081999" role="doc-biblioref">1999</a>)</span> references Tukey and Tukey (1990) ans describes some variety in jittered dotplots.</p>
-</section>
-<section id="goal-and-structure" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="goal-and-structure"><span class="header-section-number">1.2</span> Goal and structure</h2>
-<p>Here we need to answer: Why not just use <code>geom_jitter()</code>?</p>
+<p>Some related work: <span class="citation" data-cites="trutschl2003intelligently">(<a href="#ref-trutschl2003intelligently" role="doc-biblioref">Trutschl, Grinstein, and Cvek 2003</a>)</span>, <span class="citation" data-cites="park2017gatherplots">(<a href="#ref-park2017gatherplots" role="doc-biblioref">Park, Kim, and Elmqvist 2017</a>)</span>, <span class="citation" data-cites="christensen2018progressive">(<a href="#ref-christensen2018progressive" role="doc-biblioref">Christensen, Kensler, and Kilpatrick 2018</a>)</span>, <span class="citation" data-cites="ohbuchi1996quasi">(<a href="#ref-ohbuchi1996quasi" role="doc-biblioref">Ohbuchi and Aono 1996</a>)</span>, <span class="citation" data-cites="pharr2023physically">(<a href="#ref-pharr2023physically" role="doc-biblioref">Pharr, Jakob, and Humphreys 2023</a>)</span>, <span class="citation" data-cites="cambou2017quasi">(<a href="#ref-cambou2017quasi" role="doc-biblioref">Cambou, Hofert, and Lemieux 2017</a>)</span>, <span class="citation" data-cites="idrus2021swarm">(<a href="#ref-idrus2021swarm" role="doc-biblioref">Idrus et al. 2021</a>)</span>, <span class="citation" data-cites="marcilio2021explorertree">(<a href="#ref-marcilio2021explorertree" role="doc-biblioref">Marcı́lio-Jr et al. 2021</a>)</span>, <span class="citation" data-cites="van2021blue">(<a href="#ref-van2021blue" role="doc-biblioref">Onzenoodt et al. 2021</a>)</span>, <span class="citation" data-cites="park2023gatherplot">(<a href="#ref-park2023gatherplot" role="doc-biblioref">Park, Kim, and Elmqvist 2023</a>)</span> and <span class="citation" data-cites="rave2024cluttering">(<a href="#ref-rave2024cluttering" role="doc-biblioref">Rave, Molchanov, and Linsen 2024</a>)</span> .</p>
+<section id="goal-and-structure" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="goal-and-structure"><span class="header-section-number">1.1</span> Goal and structure</h2>
 <p>Introduce methods for jittering in 2D and implement an R package that extends <code>geom_jitter()</code></p>
 <ul>
 <li>Describe some methods/ideas</li>
@@ -135,14 +128,11 @@ window.Quarto = {
 </section>
 <section id="methods" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Methods</h1>
-<p>Combine 2 parameters to describe jittering in 2D, each parameter has two possible levels.</p>
+<p>Combine 2 parameters to describe jittering in 2D, where each parameter has two possible levels.</p>
 <ul>
-<li><p>Noise: Random (R) or Quasi-random (Q)</p></li>
-<li><p>Direction: Global (G) or Local (L)</p></li>
+<li><p>Noise: Random or Quasi-random</p></li>
+<li><p>Direction: Global or Local</p></li>
 </ul>
-<p>Combining the 2 parameters gives 4 ways to jitter scatter plots: R-L, R-G, Q-L, Q-G.</p>
-<section id="adding-noise-in-2d" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="adding-noise-in-2d"><span class="header-section-number">2.1</span> Adding noise in 2D</h2>
 <p>Noise is related to how the jittering is generated. Traditionally in 1D, jittering is randomly generated with a uniform distribution. For 2D, random generation can be done based on a bivariate normal distribution. For a given point <span class="math inline">\((x_i, y_i)\)</span>, the first step is to compute initial noise, which is done as:</p>
 <p><span class="math display">\[
 \begin{pmatrix} e_x \\ e_y \end{pmatrix} \sim N(0 ,
@@ -153,20 +143,14 @@ window.Quarto = {
 <p><span class="math display">\[
 \begin{pmatrix} e_x \\ e_y \end{pmatrix} \sim Sobol(r, dim = 2)
 \]</span></p>
-</section>
-<section id="noise-direction" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="noise-direction"><span class="header-section-number">2.2</span> Noise direction</h2>
 <p>The second step is to rotate the noise according to the observed direction in the data. Direction controls how the observed data influence the jittering; in particular, the correlation structure of the data affects the jittering direction through the correlation coefficient.</p>
 <p><span class="math display">\[
 \begin{pmatrix} \Delta_x \\ \Delta_y \end{pmatrix} = \mbox{chol} \left[  \begin{pmatrix} 1 &amp; \rho_{xy} \\ \rho_{xy} &amp; 1 \end{pmatrix}  \right]^{\top} \begin{pmatrix} e_x &amp; e_y \end{pmatrix}
 \]</span></p>
 <p>where <span class="math inline">\(\mbox{chol}[]\)</span> stands for Cholesky decomposition. (is this having an effect on variance too??)</p>
 <p>Correlation, <span class="math inline">\(\rho_{xy}\)</span>, can be computed using all points (global) or with the closer points to the one being jittered (local). A local correlation can be computed using only neighbors or using kernel weights.</p>
-</section>
-<section id="jittering-separation-not-done" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="jittering-separation-not-done"><span class="header-section-number">2.3</span> Jittering separation (not done!)</h2>
+<p>Combining the 2 parameters gives 4 ways to jitter scatter plots: R-L, R-G, Q-L, Q-G.</p>
 <p>A third parameter that might be worth adding is Voronoi constraint. When Voronoi is TRUE, jittered points are forced to lie within the Voronoi cell of the corresponding observed point. This ensures the resulting jittered plot does not overlap and naturally controls the amount of jittering. (<strong>Not sure how hard or if this is possible to do!!</strong>)</p>
-</section>
 </section>
 <section id="application-examples" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Application examples</h1>
@@ -238,11 +222,9 @@ Figure&nbsp;4: Non-linear data
 </section>
 <section id="more-interesting-cases" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="more-interesting-cases"><span class="header-section-number">3.2</span> More interesting cases</h2>
-<p>Real cases/data scenarios where 2D-jittering is useful/needed:</p>
 <ul>
 <li><p>Survey data scatter plot with subsampling method</p></li>
 <li><p>Age and deaths? Excess deaths in COVID?</p></li>
-<li><p>more ???</p></li>
 </ul>
 </section>
 </section>
@@ -277,14 +259,14 @@ Park, Deokgun, Sung-Hee Kim, and Niklas Elmqvist. 2017. <span>“Gatherplots: Ge
 <div id="ref-park2023gatherplot" class="csl-entry" role="listitem">
 ———. 2023. <span>“Gatherplot: A Non-Overlapping Scatterplot.”</span> <em>arXiv Preprint arXiv:2301.10843</em>.
 </div>
+<div id="ref-pharr2023physically" class="csl-entry" role="listitem">
+Pharr, Matt, Wenzel Jakob, and Greg Humphreys. 2023. <em>Physically Based Rendering: From Theory to Implementation</em>. MIT Press.
+</div>
 <div id="ref-rave2024cluttering" class="csl-entry" role="listitem">
 Rave, Hennes, Vladimir Molchanov, and Lars Linsen. 2024. <span>“De-Cluttering Scatterplots with Integral Images.”</span> <em>IEEE Transactions on Visualization and Computer Graphics</em> 31 (4): 2114–26.
 </div>
 <div id="ref-trutschl2003intelligently" class="csl-entry" role="listitem">
 Trutschl, Marjan, Georges Grinstein, and Urska Cvek. 2003. <span>“Intelligently Resolving Point Occlusion.”</span> In <em>IEEE Symposium on Information Visualization 2003 (IEEE Cat. No. 03TH8714)</em>, 131–36. IEEE.
-</div>
-<div id="ref-Wilkinson01081999" class="csl-entry" role="listitem">
-Wilkinson, Leland. 1999. <span>“Dot Plots.”</span> <em>The American Statistician</em> 53 (3): 276–81. <a href="https://doi.org/10.1080/00031305.1999.10474474">https://doi.org/10.1080/00031305.1999.10474474</a>.
 </div>
 </div></section></div></main>
 <!-- /main column -->
