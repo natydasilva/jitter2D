@@ -1,6 +1,6 @@
 ---
-title: "Two dimensional jiterred scatter plot"
-format: pdf
+title: "Jittered scatterplots"
+format: html
 number-sections: true
 bibliography: references.bib
 ---
@@ -18,8 +18,12 @@ Adding noise in quasi-random way appears in swarm plot [@idrus2021swarm], blue n
 
 Quasi-random methods has being studied, @christensen2018progressive compare methods for quasirandom genrators in 2D. These methods are used in several scenarios, applied to copulas [@cambou2017quasi] or quasi montecarlo[@ohbuchi1996quasi] 
 
+@Wilkinson01081999 references Tukey and Tukey (1990) ans describes some variety in jittered dotplots.
 
 ## Goal and structure
+
+Here we need to answer: Why not just use `geom_jitter()`?
+
 Introduce methods for jittering in 2D and implement an R package that extends `geom_jitter()`
 
 -   Describe some methods/ideas
@@ -76,7 +80,7 @@ library(tidyverse)
 library(patchwork)
 library(stringr)
 library(here)
-source(here('tests/sandbox/utils.R') )
+source(here('inst/sandbox/utils.R') )
 devtools::load_all()
 
 exapmle_fn <- function(genff, nn) {
@@ -178,6 +182,10 @@ Real cases/data scenarios where 2D-jittering is useful/needed:
 
 - more ??? 
 
+- survey, weighted data
+- scagnostics work
+- where one area measured on one scale and another on a different scale, 
+- viewing bootstrap samples
 
 
 # Discussion

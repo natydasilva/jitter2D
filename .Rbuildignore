@@ -1,8 +1,8 @@
 ^jitter2D\.Rproj$
 ^\.Rproj\.user$
 
-^tests/sandbox$
+^inst/sandbox$
 
-^tests/refs$
-^tests/paper$
+^inst/refs$
+^inst/paper$
 
