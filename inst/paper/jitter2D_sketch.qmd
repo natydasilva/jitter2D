@@ -7,8 +7,12 @@ bibliography: references.bib
 
 # Introduction
 
-We have included some ideas and examples for Jittered scatter plots in this document.
+For various reasons it is useful for spreading points in dotplot or scatterplot displays. When points are overplotted in a display the assessment of the distribution or association between variables may not be accurately interpreted. There is a long history of using dotplots for examining distributions, with a variety of recommended methods for spreading apart identical points. @Wilkinson01081999 provides a simple and comprehensive discussion. Dotplots for studying distributions provide a 
 
+```{r}
+#| label: fig-dotplots
+
+```
 
 ## Related work
 
