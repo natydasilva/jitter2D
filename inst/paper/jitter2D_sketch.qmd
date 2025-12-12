@@ -180,16 +180,17 @@ exapmle_fn(genff = gendt_nonlinear, nn = 50)
 
 Real cases/data scenarios where 2D-jittering is useful/needed: 
 
--   Survey data scatter plot with subsampling method
+- Survey data scatter plot with subsampling method
 
--   Age and deaths? Excess deaths in COVID?
+- Age and deaths? Excess deaths in COVID?
 
-- more ??? 
+- Survey, weighted data
 
-- survey, weighted data
-- scagnostics work
-- where one area measured on one scale and another on a different scale, 
-- viewing bootstrap samples
+- Scagnostics work
+
+- Where one area measured on one scale and another on a different scale, 
+
+- Viewing bootstrap samples
 
 
 # Discussion
