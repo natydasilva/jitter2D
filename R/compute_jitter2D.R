@@ -3,6 +3,7 @@
 #' @param dir: Global or Local
 #' @param Voronoi: True or False (not implemented yet)
 #' @param weight: spread factor (copied from ggplot2::geom_jitter, not used)
+#' @param bw: bandwidth for kernel in local correlation
 #' @param seed: simulation seed (copied from ggplot2::geom_jitter, not used)
 
 #' @export
@@ -11,6 +12,7 @@ compute_jitter2D <- function(
   noise = 'quasi',
   dir = 'global',
   weight = NULL,
+  bw = .5,
   seed = NA
 ) {
   # weight <- weight  %||% (ggplot2::resolution(data$x, zero = FALSE, TRUE) * 0.4)
@@ -18,7 +20,7 @@ compute_jitter2D <- function(
 
   rho <- 0
   if (dir == 'local') {
-    rho <- local_correlation(data)
+    rho <- local_correlation(data, bandwidth = bw)
   } else if (dir == 'global') {
     rho <- stats::cor(data$y, data$x) |> rep(nrow(data))
   }

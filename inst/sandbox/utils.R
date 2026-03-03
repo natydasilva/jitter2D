@@ -65,7 +65,7 @@ local_correlation <- function(data, bandwidth = .5, coords = NULL) {
 
   # Compute local correlation for each point
   dds <- dist(data)
-  bw <- quantile(dds, probs = bandwidth)
+  #bw <- quantile(dds, probs = bandwidth)
   dds <- as.matrix(dds)
 
   for (i in 1:n) {

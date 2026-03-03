@@ -87,6 +87,7 @@ library(here)
 source(here('inst/sandbox/utils.R') )
 devtools::load_all()
 
+# function to plot toy examples data 
 exapmle_fn <- function(genff, nn) {
   df <- genff(n = nn)
   dfr <- df |> mutate(x = round(x), y = round(y))
@@ -119,7 +120,44 @@ exapmle_fn <- function(genff, nn) {
     theme(aspect.ratio = 1, axis.text = element_blank()) +
     labs(x = '', y = '')
 }
+
+# function to plot real data examples 
+realdata_fn <- function(df, bw) {
+  
+  pp <- vector(mode = 'list', length = 6)
+  
+  pl <- df |> ggplot( aes(x,y) ) + geom_jitter() 
+  pl <- ggplot_build(pl)
+
+  pp[[1]] <- df
+  pp[[2]] <- pl@data[[1]][, c('x', 'y')]
+  pr <- expand.grid(n = c('random', 'quasi'), d = c('local', 'global'))
+  for (p in 1:4) {
+    pp[[p + 2]] <- compute_jitter2D(df, noise = pr$n[p], dir = pr$d[p], bw=bw)
+  }
+
+  pr_nm <- pr |>
+    mutate(
+      p = c(2, 3, 5, 6),
+      n = str_sub(n, 1, 1) |> toupper(),
+      d = str_sub(d, 1, 1) |> toupper()
+    ) |>
+    unite('ll', n, d, sep = '-') |>
+    unite('ll', p, ll, sep = ':') |>
+    pull(ll)
+
+  names(pp) <- c('1:Original', '4:geom_jitter()', pr_nm)
+  dd <- bind_rows(pp, .id = 'type')
+
+  ggplot(dd, mapping = aes(x, y)) +
+    geom_point() +
+    facet_wrap(~type) +
+    theme_bw() +
+    theme(aspect.ratio = 1) +
+    labs(x = '', y = '')
+}
 ```
+
 
 ## Toy examples
 
@@ -191,6 +229,34 @@ Real cases/data scenarios where 2D-jittering is useful/needed:
 - Where one area measured on one scale and another on a different scale, 
 
 - Viewing bootstrap samples
+
+### Education example 
+```{r 'lb'}
+load(here('data/data_LB2021_uy.rda'))
+
+df <- dt_LB21 |> 
+  filter( Departamento == 'MALDONADO', 
+  Contexto_Sociocultural == 'Quintil 1' ) |>
+    drop_na( correctas ) |> 
+    select(dias, correctas) |> 
+    setNames(nm = c('x', 'y') ) |> 
+    scale() |> data.frame()
+
+realdata_fn(df, bw = .5)  
+```
+
+### Mother age and alive previuos childs
+
+```{r}
+load(here('data/alive_ch.rda'))
+
+df <- dat |> 
+  filter( tipo_prestador_salud == 'Seguro Privado' ) |> 
+  select(alive_previous_child, edad_materna) |> 
+      setNames(nm = c('y', 'x') ) 
+
+realdata_fn(df, bw = .5)  
+```
 
 
 # Discussion

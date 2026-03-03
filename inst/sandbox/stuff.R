@@ -356,3 +356,64 @@ df <- generate_dataset(500) |>
   mutate(X = round(X), Y = round(Y))
 
 ggplot(df, aes(X, Y)) + geom_point()
+# ==================
+
+# Survey package datasets ----------------------
+
+library(survey)
+
+library(help = 'survey')
+
+?myco
+# The data are a simulated stratified case-control study drawn from a population study conducted in a region of Malawi (Clayton and Hills, 1993, Table 18.1). The goal was to examine whether BCG vaccination against tuberculosis protects against leprosy (the causative agents are both species of _Mycobacterium_).
+
+data(myco)
+
+dmyco <- svydesign(
+  id = ~1,
+  strata = ~ interaction(Age, leprosy),
+  weights = ~wt,
+  data = myco
+)
+
+m_full <- svyglm(
+  leprosy ~ I((Age + 7.5)^-2) + Scar,
+  family = quasibinomial,
+  design = dmyco
+)
+m_age <- svyglm(
+  leprosy ~ I((Age + 7.5)^-2),
+  family = quasibinomial,
+  design = dmyco
+)
+anova(m_full, m_age)
+
+## unweighted model does not match
+m_full
+m_unw <- glm(leprosy ~ I((Age + 7.5)^-2) + Scar, family = binomial, data = myco)
+
+svyplot(leprosy ~ Age, design = dmyco)
+
+#================================================
+# NHANES dataset ----------------------
+
+# install.packages('nhanesA')
+
+library(nhanesA)
+
+nhanesTables('EXAM', 2018)
+nhanesTables('LAB', 2018)
+
+nhanesTableVars('EXAM', 'BPX_J')
+
+nhanesTableVars('LAB', 'PBCD_J')
+
+bpx <- nhanes('BPX_J')
+#===========================================
+
+rho <- local_correlation(df, bandwidth = 10)
+
+for (i in 1:327) {
+  m <- matrix(c(1, rho[i], rho[i], 1), ncol = 2) |> chol()
+  i
+}

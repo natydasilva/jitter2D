@@ -1,0 +1,3 @@
+load("/Users/ialvarez/research/jitter2D/data/data_LB2021_uy.rda")
+ls()
+dt_LB21

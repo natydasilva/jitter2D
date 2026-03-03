@@ -1,0 +1,13 @@
+---
+title: "Two-dimensional jittering"
+format: html
+---
+
+**Abstract** 
+jitter2D is an R package that extends ggplot2 to create bivariate jittered scatterplots. This package provides specialized functionality for adding controlled random noise in two dimensions, making it easier to visualize overlapping data points in scatterplots where both x and y variables may have discrete or semi-discrete values.
+
+**Authors**: 
+Natalia da Silva, Ignacio Alvarez-Castro, Dianne Cook & Jayani P., Gamage.
+
+**github**: 
+https://github.com/natydasilva/jitter2D
